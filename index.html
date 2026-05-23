@@ -8,49 +8,39 @@
   <title>MoveTogether 🏡</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body { background: #080a0f; color: #fff; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    input, textarea { color-scheme: dark; font-family: inherit; }
+    input[type=range] { -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; width: 100%; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
+    ::placeholder { color: #3a3a4a !important; }
+    ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+    button:active { opacity: 0.7; }
 
 ```
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-body { background: #080a0f; color: #fff; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-
-input, textarea, select { color-scheme: dark; font-family: inherit; }
-input[type=range] { -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; width: 100%; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
-::placeholder { color: #3a3a4a !important; }
-::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
-button:active { opacity: 0.7; }
-
-/* SETUP SCREEN */
 #setup-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-.setup-card { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 440px; }
-.setup-title { font-size: 26px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
-.setup-sub { color: #555; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+.setup-card { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 420px; }
+.setup-title { font-size: 28px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+.setup-sub { color: #555; font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
 
-/* APP */
 #app { display: none; }
 .header { position: sticky; top: 0; z-index: 100; background: rgba(8,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 16px; }
 .header-inner { max-width: 620px; margin: 0 auto; }
 .app-title { font-size: 19px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
-
 .content { max-width: 620px; margin: 0 auto; padding: 16px 16px 100px; }
 
-/* GRID BUTTONS */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 0; }
-
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
 .house-btn { padding: 9px 10px; border-radius: 12px; cursor: pointer; border: 2px solid rgba(255,255,255,0.06); color: #555; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; justify-content: center; transition: all 0.2s; background: rgba(255,255,255,0.04); font-family: inherit; }
 .house-btn.active { background: rgba(99,102,241,0.22); border-color: rgba(99,102,241,0.45); color: #a5b4fc; }
-
 .tab-btn { padding: 8px 0; border-radius: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); color: #444; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; justify-content: center; transition: all 0.2s; background: transparent; font-family: inherit; }
 .tab-btn.active { background: rgba(99,102,241,0.2); border-color: rgba(99,102,241,0.35); color: #818cf8; }
 
-/* INPUTS */
 .field { margin-bottom: 14px; }
 .field label { display: block; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
 .inp { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; color: #fff; font-size: 15px; outline: none; font-family: inherit; }
 textarea.inp { min-height: 68px; resize: vertical; }
 
-/* BUTTONS */
 .btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; border-radius: 12px; font-family: inherit; font-weight: 700; padding: 10px 16px; font-size: 14px; transition: opacity 0.15s; }
 .btn-primary { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; }
 .btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #aaa; }
@@ -59,119 +49,93 @@ textarea.inp { min-height: 68px; resize: vertical; }
 .btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 9px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-/* MODAL */
-.modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: flex-end; justify-content: center; padding: 0; }
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: flex-end; justify-content: center; }
 .modal-overlay.open { display: flex; }
 .modal-box { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; animation: slideUp 0.3s cubic-bezier(0.34,1.26,0.64,1); }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
 .modal-title { font-size: 18px; font-weight: 800; color: #fff; }
 @keyframes slideUp { from { opacity:0; transform:translateY(40px) } to { opacity:1; transform:translateY(0) } }
 
-/* CARDS */
-.task-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 10px; transition: all 0.2s; }
+.task-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
 .task-card.done { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.18); }
 .task-card-header { padding: 13px 15px; display: flex; gap: 11px; align-items: flex-start; cursor: pointer; }
 .task-card-body { padding: 0 15px 15px; border-top: 1px solid rgba(255,255,255,0.05); }
 
-/* CHECKBOX */
-.checkbox { width: 26px; height: 26px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; transition: all 0.2s; }
-.checkbox.checked { border-color: #22c55e; background: #22c55e; }
+.checkbox { width: 26px; height: 26px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.checkbox.checked { border-color: #22c55e !important; background: #22c55e !important; }
 .checkbox-sm { width: 20px; height: 20px; border-radius: 6px; }
 
-/* STATS */
 .stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 18px; }
 .stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 13px; padding: 13px 10px; text-align: center; }
 .stat-val { font-size: 21px; font-weight: 800; }
 .stat-lbl { color: #666; font-size: 11px; margin-top: 2px; }
 
-/* PHOTO GRID */
-.photo-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.photo-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
 .photo-thumb { position: relative; width: 72px; height: 72px; }
 .photo-thumb img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
 .photo-del { position: absolute; top: -5px; right: -5px; background: #ef4444; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; }
 .photo-add { width: 72px; height: 72px; background: rgba(99,102,241,0.1); border: 2px dashed rgba(99,102,241,0.35); border-radius: 10px; cursor: pointer; color: #818cf8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 700; font-family: inherit; }
 
-/* URGENCY BADGE */
-.urgency-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; border-width: 2px; border-style: solid; }
-
-/* TAG */
+.urgency-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; border-width: 2px; border-style: solid; flex-shrink: 0; }
 .tag { background: rgba(99,102,241,0.18); color: #818cf8; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-
-/* SECTION HEADER */
 .section-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 12px; }
-
-/* LOADER */
 .spinner { animation: spin 1s linear infinite; display: inline-block; }
 @keyframes spin { to { transform: rotate(360deg) } }
-
-/* SYNC STATUS */
 .sync-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
 .sync-ok { background: #22c55e; }
 .sync-ing { background: #f59e0b; animation: pulse 1s ease-in-out infinite; }
 .sync-err { background: #ef4444; }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
 .empty-state { text-align: center; color: #444; padding: 48px 0; }
-.empty-emoji { font-size: 44px; margin-bottom: 12px; }
-
+.item-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(255,255,255,0.04); border-radius: 11px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.06); }
 .row-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
 .gap-8 { display: flex; gap: 8px; }
 .gap-6 { display: flex; gap: 6px; flex-wrap: wrap; }
-.item-row { display: flex; align-items: center; gap: 10px; padding: 10px 13px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.06); }
 ```
 
   </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════ SETUP SCREEN -->
+<!-- ══════════════════════════════════ SETUP -->
 
 <div id="setup-screen">
   <div class="setup-card">
     <div class="setup-title">MoveTogether 🏡</div>
-    <div class="setup-sub">Configure une fois, synchronisé pour toujours avec ta copine.</div>
+    <div class="setup-sub">Entre ton token GitHub une seule fois — tout le reste est déjà configuré.</div>
 
 ```
 <div class="field">
   <label>Token GitHub</label>
-  <input class="inp" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" />
-</div>
-<div class="field">
-  <label>Nom d'utilisateur GitHub</label>
-  <input class="inp" id="gh-user" placeholder="ton-username" />
-</div>
-<div class="field">
-  <label>Nom du repository</label>
-  <input class="inp" id="gh-repo" placeholder="movetogether" />
-</div>
-<div class="field">
-  <label>Nom du fichier de données</label>
-  <input class="inp" id="gh-file" value="data.json" />
+  <input class="inp" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
 </div>
 
-<button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="setupApp()">
-  <span id="setup-btn-text">Connecter →</span>
+<button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" id="connect-btn" onclick="setupApp()">
+  Connecter →
 </button>
-<div id="setup-error" style="color:#f87171;font-size:13px;margin-top:10px;display:none"></div>
+<div id="setup-error" style="color:#f87171;font-size:13px;margin-top:12px;display:none;line-height:1.5"></div>
 
 <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);color:#444;font-size:12px;line-height:1.6">
-  💡 <strong style="color:#666">Rappel :</strong> Crée un token sur GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → avec les droits <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px">repo</code>
+  💡 Crée un token : GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → droits <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px">repo</code>
 </div>
 ```
 
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ APP -->
+<!-- ══════════════════════════════════ APP -->
 
 <div id="app">
   <div class="header">
     <div class="header-inner">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <div class="app-title">MoveTogether 🏡</div>
-        <div style="display:flex;align-items:center;font-size:12px;color:#555">
-          <span class="sync-dot sync-ok" id="sync-dot"></span>
-          <span id="sync-label">Synchronisé</span>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="display:flex;align-items:center;font-size:12px;color:#555">
+            <span class="sync-dot sync-ok" id="sync-dot"></span>
+            <span id="sync-label">Synchronisé</span>
+          </div>
+          <button class="btn btn-ghost btn-sm" onclick="logout()" style="font-size:11px;padding:5px 9px">Déco</button>
         </div>
       </div>
       <div class="grid-2">
@@ -185,7 +149,6 @@ textarea.inp { min-height: 68px; resize: vertical; }
       </div>
     </div>
   </div>
-
   <div class="content">
     <div class="row-between">
       <div id="section-title" style="font-size:15px;font-weight:700;color:#888"></div>
@@ -195,7 +158,7 @@ textarea.inp { min-height: 68px; resize: vertical; }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ TASK MODAL -->
+<!-- ══════════════════════════════════ TASK MODAL -->
 
 <div class="modal-overlay" id="task-modal">
   <div class="modal-box">
@@ -207,128 +170,118 @@ textarea.inp { min-height: 68px; resize: vertical; }
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════ PHOTO MODAL -->
+<!-- ══════════════════════════════════ PHOTO MODAL -->
 
-<div class="modal-overlay" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
+<div class="modal-overlay" id="photo-modal" onclick="document.getElementById('photo-modal').classList.remove('open')">
   <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:20px">
     <img id="photo-modal-img" src="" style="max-width:100%;max-height:90vh;border-radius:16px" />
   </div>
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════
-// CONFIG & STATE
-// ═══════════════════════════════════════════════════════════════════════
-let CONFIG = {};
+// ══════════════════════════════════════════════════════════
+// CONFIG — pré-rempli, tu n'as besoin que du token
+// ══════════════════════════════════════════════════════════
+const GH_USER  = 'loulisse';
+const GH_REPO  = 'Movetogether-';
+const GH_FILE  = 'data.json';
+
+// ══════════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════════
+let TOKEN = '';
 let STATE = {
   house: 'current',
   tab: 'summary',
-  data: {
-    current: { tasks: [], unboundItems: [] },
-    future:  { tasks: [], unboundItems: [] }
-  },
+  data: { current: { tasks:[], unboundItems:[] }, future: { tasks:[], unboundItems:[] } },
   sha: null,
-  syncing: false,
   editingTaskId: null,
-  formPhotos: { before: [], inspiration: [] }
+  formPhotos: { before:[], inspiration:[] },
+  formItems: []
 };
 
-const URGENCY_COLORS = ['','#22c55e','#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#f97316','#f97316','#ef4444','#ef4444'];
-const URGENCY_LABELS = ['','Faible','Faible','Faible','Modérée','Modérée','Modérée','Haute','Haute','Critique','Critique'];
-function uc(u) { return URGENCY_COLORS[u] || '#22c55e'; }
-function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+const UC = ['','#22c55e','#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#f97316','#f97316','#ef4444','#ef4444'];
+function uc(u){ return UC[u]||'#22c55e'; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function houseData(){ return STATE.data[STATE.house]; }
+function itemsTotal(items){ return (items||[]).reduce((s,i)=>s+(parseFloat(i.price)||0),0); }
+function formatDate(d){ if(!d)return''; return new Date(d+'T00:00:00').toLocaleDateString('fr-CH',{day:'numeric',month:'long'}); }
 
-// ═══════════════════════════════════════════════════════════════════════
-// SETUP
-// ═══════════════════════════════════════════════════════════════════════
-function loadConfig() {
-  try {
-    const c = localStorage.getItem('movetogether_config');
-    if (c) CONFIG = JSON.parse(c);
-  } catch {}
+// ══════════════════════════════════════════════════════════
+// SETUP & AUTH
+// ══════════════════════════════════════════════════════════
+function showErr(msg){
+  const el=document.getElementById('setup-error');
+  el.innerHTML=msg; el.style.display='block';
 }
 
-async function setupApp() {
-  const token = document.getElementById('gh-token').value.trim();
-  const user  = document.getElementById('gh-user').value.trim();
-  const repo  = document.getElementById('gh-repo').value.trim();
-  const file  = document.getElementById('gh-file').value.trim() || 'data.json';
-  const errEl = document.getElementById('setup-error');
-  const btnTxt = document.getElementById('setup-btn-text');
+async function setupApp(){
+  const t = document.getElementById('gh-token').value.trim();
+  if(!t){ showErr('Entre ton token GitHub.'); return; }
 
-  if (!token || !user || !repo) { showSetupError('Tous les champs sont requis.'); return; }
+  const btn = document.getElementById('connect-btn');
+  btn.disabled=true; btn.textContent='Connexion…';
+  document.getElementById('setup-error').style.display='none';
 
-  btnTxt.textContent = 'Connexion…';
-  errEl.style.display = 'none';
+  TOKEN = t;
+  const ok = await loadFromGitHub();
 
-  CONFIG = { token, user, repo, file };
-  const ok = await loadFromGitHub(true);
-  if (ok) {
-    localStorage.setItem('movetogether_config', JSON.stringify(CONFIG));
-    showApp();
+  if(ok){
+    localStorage.setItem('mt_token', TOKEN);
+    document.getElementById('setup-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    render();
+    setInterval(pollGitHub, 20000);
   } else {
-    btnTxt.textContent = 'Connecter →';
-    showSetupError('Impossible de se connecter. Vérifie ton token et le nom du repo.');
+    btn.disabled=false; btn.textContent='Connecter →';
+    TOKEN='';
+    showErr('❌ Connexion échouée.<br>Vérifie que ton token a bien les droits <b>repo</b> et qu\'il n\'est pas expiré.');
   }
 }
 
-function showSetupError(msg) {
-  const el = document.getElementById('setup-error');
-  el.textContent = msg;
-  el.style.display = 'block';
+function logout(){
+  localStorage.removeItem('mt_token');
+  TOKEN='';
+  document.getElementById('app').style.display='none';
+  document.getElementById('setup-screen').style.display='flex';
+  document.getElementById('gh-token').value='';
+  document.getElementById('connect-btn').disabled=false;
+  document.getElementById('connect-btn').textContent='Connecter →';
 }
 
-function showApp() {
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  render();
-  // Poll toutes les 15 secondes pour synchro en temps réel
-  setInterval(pollGitHub, 15000);
-}
-
-// ═══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // GITHUB API
-// ═══════════════════════════════════════════════════════════════════════
-const GH_API = () => `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.file}`;
-const GH_HEADERS = () => ({
-  'Authorization': `token ${CONFIG.token}`,
-  'Content-Type': 'application/json',
-  'Accept': 'application/vnd.github.v3+json'
-});
+// ══════════════════════════════════════════════════════════
+function ghUrl(){ return `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`; }
+function ghHeaders(){ return { 'Authorization':'token '+TOKEN, 'Content-Type':'application/json', 'Accept':'application/vnd.github.v3+json' }; }
 
-async function loadFromGitHub(silent = false) {
+async function loadFromGitHub(){
   try {
-    const res = await fetch(GH_API(), { headers: GH_HEADERS() });
-    if (res.status === 404) {
-      // Fichier n'existe pas encore, on le crée
-      STATE.sha = null;
-      await saveToGitHub();
-      return true;
+    const res = await fetch(ghUrl(), { headers: ghHeaders() });
+    if(res.status===404){
+      STATE.sha=null;
+      return await saveToGitHub();
     }
-    if (!res.ok) return false;
+    if(!res.ok) return false;
     const json = await res.json();
     STATE.sha = json.sha;
     const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
-    // Merge proprement pour ne pas perdre de données locales non sauvegardées
+    if(!decoded.current) decoded.current={tasks:[],unboundItems:[]};
+    if(!decoded.future)  decoded.future ={tasks:[],unboundItems:[]};
     STATE.data = decoded;
-    if (!STATE.data.current) STATE.data.current = { tasks: [], unboundItems: [] };
-    if (!STATE.data.future)  STATE.data.future  = { tasks: [], unboundItems: [] };
-    if (!silent) { setSyncStatus('ok'); render(); }
     return true;
-  } catch(e) {
-    if (!silent) setSyncStatus('err');
-    return false;
-  }
+  } catch(e){ console.error(e); return false; }
 }
 
-async function saveToGitHub() {
+async function saveToGitHub(){
   setSyncStatus('ing');
   try {
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(STATE.data, null, 2))));
-    const body = { message: 'update data', content };
-    if (STATE.sha) body.sha = STATE.sha;
-    const res = await fetch(GH_API(), { method: 'PUT', headers: GH_HEADERS(), body: JSON.stringify(body) });
-    if (!res.ok) { setSyncStatus('err'); return false; }
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(STATE.data,null,2))));
+    const body = { message:'update data', content };
+    if(STATE.sha) body.sha = STATE.sha;
+    const res = await fetch(ghUrl(), { method:'PUT', headers:ghHeaders(), body:JSON.stringify(body) });
+    if(!res.ok){ setSyncStatus('err'); return false; }
     const json = await res.json();
     STATE.sha = json.content.sha;
     setSyncStatus('ok');
@@ -336,141 +289,105 @@ async function saveToGitHub() {
   } catch { setSyncStatus('err'); return false; }
 }
 
-async function pollGitHub() {
-  if (STATE.syncing) return;
-  STATE.syncing = true;
-  await loadFromGitHub(false);
-  STATE.syncing = false;
+async function pollGitHub(){
+  const res = await loadFromGitHub();
+  if(res) render();
 }
 
-function setSyncStatus(status) {
-  const dot = document.getElementById('sync-dot');
-  const lbl = document.getElementById('sync-label');
-  if (!dot) return;
-  dot.className = 'sync-dot ' + (status==='ok'?'sync-ok':status==='ing'?'sync-ing':'sync-err');
-  lbl.textContent = status==='ok'?'Synchronisé':status==='ing'?'Sync…':'Erreur sync';
+function setSyncStatus(s){
+  const dot=document.getElementById('sync-dot');
+  const lbl=document.getElementById('sync-label');
+  if(!dot)return;
+  dot.className='sync-dot '+(s==='ok'?'sync-ok':s==='ing'?'sync-ing':'sync-err');
+  lbl.textContent=s==='ok'?'Synchronisé':s==='ing'?'Sync…':'Erreur sync';
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// PHOTO — stockées en base64 dans le JSON
-// ═══════════════════════════════════════════════════════════════════════
-function fileToBase64(file) {
-  return new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = e => res(e.target.result);
-    r.onerror = () => rej(new Error('Read error'));
-    r.readAsDataURL(file);
-  });
-}
-
-// ═══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════════════════════════════════════
-function switchHouse(h) {
-  STATE.house = h;
-  document.getElementById('btn-current').classList.toggle('active', h==='current');
-  document.getElementById('btn-future').classList.toggle('active', h==='future');
+// ══════════════════════════════════════════════════════════
+function switchHouse(h){
+  STATE.house=h;
+  document.getElementById('btn-current').classList.toggle('active',h==='current');
+  document.getElementById('btn-future').classList.toggle('active',h==='future');
+  render();
+}
+function switchTab(t){
+  STATE.tab=t;
+  ['summary','shopping','calendar'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===t));
+  document.getElementById('new-task-btn').style.display=t==='calendar'?'none':'';
   render();
 }
 
-function switchTab(t) {
-  STATE.tab = t;
-  ['summary','shopping','calendar'].forEach(id => {
-    document.getElementById('tab-'+id).classList.toggle('active', id===t);
-  });
-  document.getElementById('new-task-btn').style.display = t==='calendar'?'none':'';
-  render();
-}
-
-function houseData() { return STATE.data[STATE.house]; }
-
-// ═══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // RENDER
-// ═══════════════════════════════════════════════════════════════════════
-function render() {
-  const labels = { summary:'Résumé', shopping:'Achats', calendar:'Calendrier' };
-  const houseLabel = STATE.house==='current'?'🏠 Maison actuelle':'✨ Nouvelle maison';
-  document.getElementById('section-title').textContent = `${houseLabel} · ${labels[STATE.tab]}`;
-
-  const container = document.getElementById('view-container');
-  if (STATE.tab === 'summary')  container.innerHTML = renderSummary();
-  if (STATE.tab === 'shopping') container.innerHTML = renderShopping();
-  if (STATE.tab === 'calendar') container.innerHTML = renderCalendar();
-  attachEvents();
+// ══════════════════════════════════════════════════════════
+function render(){
+  const labels={summary:'Résumé',shopping:'Achats',calendar:'Calendrier'};
+  document.getElementById('section-title').textContent=
+    (STATE.house==='current'?'🏠 Maison actuelle':'✨ Nouvelle maison')+' · '+labels[STATE.tab];
+  const c=document.getElementById('view-container');
+  if(STATE.tab==='summary')  c.innerHTML=renderSummary();
+  if(STATE.tab==='shopping') c.innerHTML=renderShopping();
+  if(STATE.tab==='calendar') c.innerHTML=renderCalendar();
 }
 
-// ─── SUMMARY ──────────────────────────────────────────────────────────
-function renderSummary() {
-  const tasks = houseData().tasks || [];
-  const done = tasks.filter(t=>t.done).length;
-  const budget = tasks.reduce((s,t)=>s+itemsTotal(t.items),0);
-  const urgent = tasks.filter(t=>t.urgency>=8&&!t.done).length;
-
-  let html = `<div class="stats-grid">
+// ─── SUMMARY ──────────────────────────────────────────────
+function renderSummary(){
+  const tasks=houseData().tasks||[];
+  const done=tasks.filter(t=>t.done).length;
+  const budget=tasks.reduce((s,t)=>s+itemsTotal(t.items),0);
+  const urgent=tasks.filter(t=>t.urgency>=8&&!t.done).length;
+  let html=`<div class="stats-grid">
     <div class="stat-card"><div class="stat-val" style="color:#22c55e">${done}/${tasks.length}</div><div class="stat-lbl">tâches</div></div>
     <div class="stat-card"><div class="stat-val" style="color:#818cf8">~${budget.toFixed(0)}</div><div class="stat-lbl">CHF estimé</div></div>
     <div class="stat-card"><div class="stat-val" style="color:#ef4444">${urgent}</div><div class="stat-lbl">urgentes</div></div>
   </div>`;
-
-  if (tasks.length === 0) {
-    html += `<div class="empty-state"><div class="empty-emoji">📋</div>Aucune tâche — commence !</div>`;
-  } else {
-    const sorted = [...tasks].sort((a,b)=>b.urgency-a.urgency);
-    sorted.forEach(t => { html += renderTaskCard(t); });
-  }
+  if(!tasks.length) return html+`<div class="empty-state"><div style="font-size:44px;margin-bottom:12px">📋</div>Aucune tâche — commence !</div>`;
+  [...tasks].sort((a,b)=>b.urgency-a.urgency).forEach(t=>{ html+=renderTaskCard(t); });
   return html;
 }
 
-function itemsTotal(items=[]) {
-  return items.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
-}
+function renderTaskCard(t){
+  const total=itemsTotal(t.items);
+  const doneI=(t.items||[]).filter(i=>i.done).length;
+  const photoN=(t.photos_before||[]).length+(t.photos_inspiration||[]).length;
+  const color=uc(t.urgency);
+  let meta='';
+  if(t.deadline) meta+=`<span style="color:#777;font-size:12px">📅 ${formatDate(t.deadline)}</span>`;
+  if(total>0)    meta+=`<span style="color:#818cf8;font-size:12px;font-weight:600">💰 ~${total.toFixed(0)} CHF</span>`;
+  if(t.items?.length) meta+=`<span style="color:#666;font-size:12px">${doneI}/${t.items.length} articles</span>`;
+  if(photoN>0)   meta+=`<span style="color:#666;font-size:12px">🖼 ${photoN}</span>`;
 
-function renderTaskCard(t) {
-  const total = itemsTotal(t.items);
-  const doneItems = (t.items||[]).filter(i=>i.done).length;
-  const photoCount = (t.photos_before||[]).length + (t.photos_inspiration||[]).length;
-  const color = uc(t.urgency);
+  const chk=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const chkSm=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-  let meta = '';
-  if (t.deadline) meta += `<span style="color:#777;font-size:12px">📅 ${formatDate(t.deadline)}</span>`;
-  if (total>0) meta += `<span style="color:#818cf8;font-size:12px;font-weight:600">💰 ~${total.toFixed(0)} CHF</span>`;
-  if (t.items?.length) meta += `<span style="color:#666;font-size:12px">${doneItems}/${t.items.length} articles</span>`;
-  if (photoCount>0) meta += `<span style="color:#666;font-size:12px">🖼 ${photoCount}</span>`;
-
-  let body = '';
-  if (t._open) {
-    body = `<div class="task-card-body">`;
-    if (t.description) body += `<p style="color:#999;font-size:14px;margin:12px 0;line-height:1.55">${esc(t.description)}</p>`;
-
-    if (t.items?.length) {
-      body += `<div class="section-label">Articles à acheter</div>`;
-      t.items.forEach(item => {
-        body += `<div class="item-row" style="background:rgba(255,255,255,0.03);padding:7px 10px;border-radius:10px;margin-bottom:4px">
-          <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleItem('${t.id}','${item.id}')" style="cursor:pointer;${item.done?'border-color:#22c55e;background:#22c55e':''}">
-            ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
+  let body='';
+  if(t._open){
+    body=`<div class="task-card-body">`;
+    if(t.description) body+=`<p style="color:#999;font-size:14px;margin:12px 0;line-height:1.55">${esc(t.description)}</p>`;
+    if(t.items?.length){
+      body+=`<div class="section-label">Articles à acheter</div>`;
+      t.items.forEach(item=>{
+        body+=`<div class="item-row" style="padding:7px 10px;border-radius:10px;margin-bottom:4px">
+          <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleItem('${t.id}','${item.id}')" style="cursor:pointer">
+            ${item.done?chkSm:''}
           </div>
           <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
           ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
         </div>`;
       });
     }
-
-    if (t.photos_before?.length) {
-      body += `<div class="section-label">État actuel</div><div class="gap-6" style="margin-bottom:10px">`;
-      t.photos_before.forEach(p => {
-        body += `<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="openPhoto('${p.id}','${t.id}','before')" />`;
-      });
-      body += `</div>`;
+    if(t.photos_before?.length){
+      body+=`<div class="section-label">État actuel</div><div class="gap-6" style="margin-bottom:10px">`;
+      t.photos_before.forEach(p=>{ body+=`<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="viewPhoto('${p.data}')" />`; });
+      body+=`</div>`;
     }
-    if (t.photos_inspiration?.length) {
-      body += `<div class="section-label">Inspiration</div><div class="gap-6" style="margin-bottom:12px">`;
-      t.photos_inspiration.forEach(p => {
-        body += `<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="openPhoto('${p.id}','${t.id}','inspiration')" />`;
-      });
-      body += `</div>`;
+    if(t.photos_inspiration?.length){
+      body+=`<div class="section-label">Inspiration</div><div class="gap-6" style="margin-bottom:12px">`;
+      t.photos_inspiration.forEach(p=>{ body+=`<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="viewPhoto('${p.data}')" />`; });
+      body+=`</div>`;
     }
-
-    body += `<div class="gap-8">
+    body+=`<div class="gap-8">
       <button class="btn btn-accent btn-sm" onclick="openTaskModal('${t.id}')">✏️ Modifier</button>
       <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">🗑 Supprimer</button>
     </div></div>`;
@@ -478,8 +395,8 @@ function renderTaskCard(t) {
 
   return `<div class="task-card ${t.done?'done':''}" id="card-${t.id}">
     <div class="task-card-header" onclick="toggleCard('${t.id}')">
-      <div class="checkbox ${t.done?'checked':''}" onclick="event.stopPropagation();toggleTaskDone('${t.id}')" style="${t.done?'border-color:#22c55e;background:#22c55e':''}">
-        ${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>':''}
+      <div class="checkbox ${t.done?'checked':''}" onclick="event.stopPropagation();toggleTaskDone('${t.id}')" style="cursor:pointer;margin-top:2px">
+        ${t.done?chk:''}
       </div>
       <div style="flex:1;min-width:0">
         <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
@@ -490,35 +407,33 @@ function renderTaskCard(t) {
       </div>
       <div style="display:flex;align-items:center;gap:8px">
         <div class="urgency-badge" style="color:${color};border-color:${color};background:${color}18">${t.urgency}</div>
-        <span style="color:#444;transition:0.2s;transform:${t._open?'rotate(180deg)':'rotate(0)'};display:inline-block">▾</span>
+        <span style="color:#444;transition:0.2s;display:inline-block;transform:${t._open?'rotate(180deg)':'rotate(0)'};font-size:12px">▾</span>
       </div>
-    </div>
-    ${body}
+    </div>${body}
   </div>`;
 }
 
-// ─── SHOPPING ─────────────────────────────────────────────────────────
-function renderShopping() {
-  const tasks = houseData().tasks || [];
-  const unbound = houseData().unboundItems || [];
-  const taskItems = tasks.flatMap(t=>(t.items||[]).map(i=>({...i,taskTitle:t.title})));
-  const all = [...taskItems,...unbound];
-  const totalDone = all.filter(i=>i.done).length;
-  const totalCost = all.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
-  const spentCost = all.filter(i=>i.done).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+// ─── SHOPPING ─────────────────────────────────────────────
+function renderShopping(){
+  const tasks=houseData().tasks||[];
+  const unbound=houseData().unboundItems||[];
+  const taskItems=tasks.flatMap(t=>(t.items||[]).map(i=>({...i,taskTitle:t.title})));
+  const all=[...taskItems,...unbound];
+  const totalDone=all.filter(i=>i.done).length;
+  const totalCost=all.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+  const spent=all.filter(i=>i.done).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+  const chkSm=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-  let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
+  let html=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
     <div class="stat-card"><div class="stat-val" style="color:#22c55e">${totalDone}/${all.length}</div><div class="stat-lbl">achetés</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:#818cf8">${spentCost.toFixed(0)}/${totalCost.toFixed(0)}</div><div class="stat-lbl">CHF dépensés</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#818cf8">${spent.toFixed(0)}/${totalCost.toFixed(0)}</div><div class="stat-lbl">CHF dépensés</div></div>
   </div>`;
 
-  if (taskItems.length) {
-    html += `<div class="section-label" style="margin-top:0">Liés à une tâche</div>`;
-    taskItems.forEach((item,idx) => {
-      html += `<div class="item-row">
-        <div class="checkbox checkbox-sm" style="cursor:default;${item.done?'border-color:#22c55e;background:#22c55e':''}">
-          ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
-        </div>
+  if(taskItems.length){
+    html+=`<div class="section-label" style="margin-top:0">Liés à une tâche</div>`;
+    taskItems.forEach(item=>{
+      html+=`<div class="item-row">
+        <div class="checkbox checkbox-sm ${item.done?'checked':''}" style="flex-shrink:0">${item.done?chkSm:''}</div>
         <div style="flex:1"><div style="color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</div>
         <div style="color:#555;font-size:11px">📌 ${esc(item.taskTitle)}</div></div>
         ${item.price?`<span style="color:#818cf8;font-size:13px;font-weight:600">${item.price} CHF</span>`:''}
@@ -526,36 +441,32 @@ function renderShopping() {
     });
   }
 
-  html += `<div class="section-label">Articles divers</div>`;
-  unbound.forEach(item => {
-    html += `<div class="item-row" style="${item.done?'background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.18)':''}">
-      <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleUnbound('${item.id}')" style="cursor:pointer;${item.done?'border-color:#22c55e;background:#22c55e':''}">
-        ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
-      </div>
+  html+=`<div class="section-label">Articles divers</div>`;
+  unbound.forEach(item=>{
+    html+=`<div class="item-row" style="${item.done?'background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.18)':''}">
+      <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleUnbound('${item.id}')" style="cursor:pointer">${item.done?chkSm:''}</div>
       <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
       ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
       <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="deleteUnbound('${item.id}')">🗑</button>
     </div>`;
   });
 
-  html += `<div class="gap-8" style="margin-top:10px">
+  html+=`<div class="gap-8" style="margin-top:10px">
     <input class="inp" id="new-item-name" placeholder="Nouvel article…" style="flex:2" onkeydown="if(event.key==='Enter')addUnbound()" />
     <input class="inp" id="new-item-price" placeholder="CHF" type="number" style="flex:1;max-width:80px" />
     <button class="btn btn-accent btn-sm" onclick="addUnbound()">+</button>
   </div>`;
-
   return html;
 }
 
-// ─── CALENDAR ─────────────────────────────────────────────────────────
-function renderCalendar() {
-  const tasks = (houseData().tasks||[]).filter(t=>t.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
-  if (!tasks.length) return `<div class="empty-state"><div class="empty-emoji">📅</div>Aucune tâche avec deadline</div>`;
-
-  const now = new Date();
-  return tasks.map(t => {
-    const dl = Math.ceil((new Date(t.deadline+'T00:00:00') - now) / 86400000);
-    const c = dl<0?'#ef4444':dl<=7?'#f59e0b':'#22c55e';
+// ─── CALENDAR ─────────────────────────────────────────────
+function renderCalendar(){
+  const tasks=(houseData().tasks||[]).filter(t=>t.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  if(!tasks.length) return `<div class="empty-state"><div style="font-size:44px;margin-bottom:12px">📅</div>Aucune tâche avec deadline</div>`;
+  const now=new Date();
+  return tasks.map(t=>{
+    const dl=Math.ceil((new Date(t.deadline+'T00:00:00')-now)/86400000);
+    const c=dl<0?'#ef4444':dl<=7?'#f59e0b':'#22c55e';
     return `<div style="display:flex;gap:13px;padding:14px 15px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;margin-bottom:10px;align-items:center">
       <div style="min-width:48px;text-align:center">
         <div style="color:${c};font-size:21px;font-weight:800">${dl<0?dl:'+'+dl}</div>
@@ -570,46 +481,41 @@ function renderCalendar() {
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
 // TASK MODAL
-// ═══════════════════════════════════════════════════════════════════════
-function openTaskModal(taskId) {
-  STATE.editingTaskId = taskId;
-  const task = taskId ? houseData().tasks.find(t=>t.id===taskId) : null;
-  STATE.formPhotos = {
-    before: task?.photos_before ? [...task.photos_before] : [],
-    inspiration: task?.photos_inspiration ? [...task.photos_inspiration] : []
-  };
-
-  document.getElementById('modal-title').textContent = task ? '✏️ Modifier la tâche' : '➕ Nouvelle tâche';
-  document.getElementById('task-form').innerHTML = buildTaskForm(task);
+// ══════════════════════════════════════════════════════════
+function openTaskModal(taskId){
+  STATE.editingTaskId=taskId;
+  const task=taskId?houseData().tasks.find(t=>t.id===taskId):null;
+  STATE.formPhotos={ before:[...(task?.photos_before||[])], inspiration:[...(task?.photos_inspiration||[])] };
+  STATE.formItems=[...(task?.items||[])];
+  document.getElementById('modal-title').textContent=task?'✏️ Modifier la tâche':'➕ Nouvelle tâche';
+  document.getElementById('task-form').innerHTML=buildTaskForm(task);
   document.getElementById('task-modal').classList.add('open');
   renderFormPhotos();
 }
-
-function closeTaskModal() {
+function closeTaskModal(){
   document.getElementById('task-modal').classList.remove('open');
-  STATE.editingTaskId = null;
+  STATE.editingTaskId=null;
 }
 
-function buildTaskForm(task) {
-  const items = task?.items || [];
-  let itemsHtml = items.map(i=>`
+function buildTaskForm(task){
+  const urgVal=task?.urgency||5;
+  let itemsHtml=STATE.formItems.map(i=>`
     <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px">
       <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span>
       ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''}
       <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button>
     </div>`).join('');
-
   return `
     <div class="field"><label>Titre *</label><input class="inp" id="f-title" value="${esc(task?.title||'')}" placeholder="Ex: Installation machine à laver" /></div>
     <div class="field"><label>Pièce / Zone</label><input class="inp" id="f-room" value="${esc(task?.room||'')}" placeholder="Cuisine, Salle de bain…" /></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
       <div class="field"><label>Deadline</label><input class="inp" type="date" id="f-deadline" value="${task?.deadline||''}" /></div>
-      <div class="field"><label id="f-urgency-label">Urgence ${task?.urgency||5}/10</label>
+      <div class="field"><label id="f-urg-lbl">Urgence ${urgVal}/10</label>
         <div style="display:flex;align-items:center;gap:8px;padding-top:6px">
-          <input type="range" min="1" max="10" id="f-urgency" value="${task?.urgency||5}" style="accentColor:${uc(task?.urgency||5)}" oninput="updateUrgencyLabel(this.value)" />
-          <span id="f-urgency-val" style="color:${uc(task?.urgency||5)};font-weight:800;font-size:16px;min-width:22px">${task?.urgency||5}</span>
+          <input type="range" min="1" max="10" id="f-urgency" value="${urgVal}" style="accentColor:${uc(urgVal)}" oninput="updUrg(this.value)" />
+          <span id="f-urg-val" style="color:${uc(urgVal)};font-weight:800;font-size:16px;min-width:22px">${urgVal}</span>
         </div>
       </div>
     </div>
@@ -624,243 +530,158 @@ function buildTaskForm(task) {
     <button class="btn btn-accent btn-sm" onclick="addFormItem()">+</button>
   </div>
 </div>
-
-<div class="field"><label>📸 Photos — État actuel</label><div id="photos-before" class="photo-grid"></div><input type="file" id="f-photo-before" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload('before',this)" /></div>
-<div class="field"><label>✨ Photos — Inspiration</label><div id="photos-inspiration" class="photo-grid"></div><input type="file" id="f-photo-inspiration" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload('inspiration',this)" /></div>
-
+<div class="field"><label>📸 Photos — État actuel</label><div id="photos-before" class="photo-grid"></div>
+  <input type="file" id="f-pb" accept="image/*" multiple style="display:none" onchange="handlePhotos('before',this)" /></div>
+<div class="field"><label>✨ Photos — Inspiration</label><div id="photos-inspiration" class="photo-grid"></div>
+  <input type="file" id="f-pi" accept="image/*" multiple style="display:none" onchange="handlePhotos('inspiration',this)" /></div>
 <div class="gap-8" style="margin-top:10px">
   <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeTaskModal()">Annuler</button>
-  <button class="btn btn-primary" style="flex:2;justify-content:center" id="f-save-btn" onclick="saveTask()">
-    ${task ? 'Enregistrer' : 'Créer la tâche'}
-  </button>
+  <button class="btn btn-primary" style="flex:2;justify-content:center" id="f-save-btn" onclick="saveTask()">${task?'Enregistrer':'Créer la tâche'}</button>
 </div>`;
 ```
 
 }
 
-function updateUrgencyLabel(v) {
-document.getElementById(‘f-urgency-label’).textContent = `Urgence ${v}/10`;
-document.getElementById(‘f-urgency-val’).textContent = v;
-document.getElementById(‘f-urgency-val’).style.color = uc(+v);
-document.getElementById(‘f-urgency’).style.accentColor = uc(+v);
+function updUrg(v){
+document.getElementById(‘f-urg-lbl’).textContent=‘Urgence ‘+v+’/10’;
+const el=document.getElementById(‘f-urg-val’);
+el.textContent=v; el.style.color=uc(+v);
+document.getElementById(‘f-urgency’).style.accentColor=uc(+v);
 }
 
-// Form items
-let _formItems = [];
-function initFormItems(task) {
-_formItems = task?.items ? […task.items] : [];
+function refreshFormItems(){
+const el=document.getElementById(‘form-items’); if(!el)return;
+el.innerHTML=STATE.formItems.map(i=>` <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px"> <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span> ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''} <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button> </div>`).join(’’);
 }
-
-function addFormItem() {
-const name = document.getElementById(‘f-item-name’).value.trim();
-const price = document.getElementById(‘f-item-price’).value.trim();
-if (!name) return;
-_formItems.push({ id: uid(), name, price, done: false });
-document.getElementById(‘f-item-name’).value = ‘’;
-document.getElementById(‘f-item-price’).value = ‘’;
+function addFormItem(){
+const n=document.getElementById(‘f-item-name’)?.value.trim();
+const p=document.getElementById(‘f-item-price’)?.value.trim();
+if(!n)return;
+STATE.formItems.push({id:uid(),name:n,price:p,done:false});
+document.getElementById(‘f-item-name’).value=’’;
+document.getElementById(‘f-item-price’).value=’’;
 refreshFormItems();
 }
+function removeFormItem(id){ STATE.formItems=STATE.formItems.filter(i=>i.id!==id); refreshFormItems(); }
 
-function removeFormItem(id) {
-_formItems = _formItems.filter(i=>i.id!==id);
-refreshFormItems();
+async function handlePhotos(type,input){
+for(const file of Array.from(input.files)){
+if(!file.type.startsWith(‘image/’))continue;
+const data=await resizeImage(file,800);
+STATE.formPhotos[type].push({id:uid(),data});
 }
-
-function refreshFormItems() {
-const el = document.getElementById(‘form-items’);
-if (!el) return;
-el.innerHTML = _formItems.map(i=>` <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px"> <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span> ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''} <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button> </div>`).join(’’);
+input.value=’’; renderFormPhotos();
 }
-
-// Photo upload
-async function handlePhotoUpload(type, input) {
-const files = Array.from(input.files);
-for (const file of files) {
-if (!file.type.startsWith(‘image/’)) continue;
-// Resize avant de stocker
-const data = await resizeImage(file, 800);
-STATE.formPhotos[type].push({ id: uid(), data });
-}
-input.value = ‘’;
-renderFormPhotos();
-}
-
-function resizeImage(file, maxW) {
-return new Promise(res => {
-const img = new Image();
-const url = URL.createObjectURL(file);
-img.onload = () => {
-const scale = Math.min(1, maxW / img.width);
-const canvas = document.createElement(‘canvas’);
-canvas.width = img.width * scale;
-canvas.height = img.height * scale;
-canvas.getContext(‘2d’).drawImage(img, 0, 0, canvas.width, canvas.height);
-URL.revokeObjectURL(url);
-res(canvas.toDataURL(‘image/jpeg’, 0.75));
-};
-img.src = url;
+function resizeImage(file,maxW){
+return new Promise(res=>{
+const img=new Image(), url=URL.createObjectURL(file);
+img.onload=()=>{
+const sc=Math.min(1,maxW/img.width);
+const c=document.createElement(‘canvas’);
+c.width=img.width*sc; c.height=img.height*sc;
+c.getContext(‘2d’).drawImage(img,0,0,c.width,c.height);
+URL.revokeObjectURL(url); res(c.toDataURL(‘image/jpeg’,0.75));
+}; img.src=url;
 });
 }
-
-function renderFormPhotos() {
-[‘before’,‘inspiration’].forEach(type => {
-const el = document.getElementById(`photos-${type}`);
-if (!el) return;
-const inputId = `f-photo-${type}`;
-el.innerHTML = STATE.formPhotos[type].map(p=>` <div class="photo-thumb"> <img src="${p.data}" onclick="openPhotoFromData('${p.data}')" /> <button class="photo-del" onclick="removeFormPhoto('${type}','${p.id}')">✕</button> </div>`).join(’’) +
-`<button class="photo-add" onclick="document.getElementById('${inputId}').click()">📷<span>Ajouter</span></button>`;
+function renderFormPhotos(){
+[‘before’,‘inspiration’].forEach(type=>{
+const el=document.getElementById(‘photos-’+type); if(!el)return;
+const inpId=type===‘before’?‘f-pb’:‘f-pi’;
+el.innerHTML=STATE.formPhotos[type].map(p=>` <div class="photo-thumb"> <img src="${p.data}" onclick="viewPhoto('${p.data}')" /> <button class="photo-del" onclick="removeFormPhoto('${type}','${p.id}')">✕</button> </div>`).join(’’)+
+`<button class="photo-add" onclick="document.getElementById('${inpId}').click()">📷<span>Ajouter</span></button>`;
 });
 }
+function removeFormPhoto(type,id){ STATE.formPhotos[type]=STATE.formPhotos[type].filter(p=>p.id!==id); renderFormPhotos(); }
 
-function removeFormPhoto(type, id) {
-STATE.formPhotos[type] = STATE.formPhotos[type].filter(p=>p.id!==id);
-renderFormPhotos();
-}
-
-async function saveTask() {
-const title = document.getElementById(‘f-title’)?.value.trim();
-if (!title) return;
-
-const saveBtn = document.getElementById(‘f-save-btn’);
-if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = ‘⏳ Sauvegarde…’; }
-
-const task = {
-id: STATE.editingTaskId || uid(),
-title,
-room: document.getElementById(‘f-room’)?.value.trim() || ‘’,
-deadline: document.getElementById(‘f-deadline’)?.value || ‘’,
-urgency: parseInt(document.getElementById(‘f-urgency’)?.value) || 5,
-description: document.getElementById(‘f-desc’)?.value.trim() || ‘’,
-items: _formItems,
-photos_before: STATE.formPhotos.before,
-photos_inspiration: STATE.formPhotos.inspiration,
-done: false,
+async function saveTask(){
+const title=document.getElementById(‘f-title’)?.value.trim();
+if(!title)return;
+const btn=document.getElementById(‘f-save-btn’);
+if(btn){btn.disabled=true;btn.textContent=‘⏳ Sauvegarde…’;}
+const task={
+id:STATE.editingTaskId||uid(), title,
+room:document.getElementById(‘f-room’)?.value.trim()||’’,
+deadline:document.getElementById(‘f-deadline’)?.value||’’,
+urgency:parseInt(document.getElementById(‘f-urgency’)?.value)||5,
+description:document.getElementById(‘f-desc’)?.value.trim()||’’,
+items:STATE.formItems,
+photos_before:STATE.formPhotos.before,
+photos_inspiration:STATE.formPhotos.inspiration,
+done:false
 };
-
-// Conserver le statut done si édition
-if (STATE.editingTaskId) {
-const existing = houseData().tasks.find(t=>t.id===STATE.editingTaskId);
-if (existing) task.done = existing.done;
+if(STATE.editingTaskId){
+const ex=houseData().tasks.find(t=>t.id===STATE.editingTaskId);
+if(ex)task.done=ex.done;
 }
-
-const hd = houseData();
-const idx = hd.tasks.findIndex(t=>t.id===task.id);
-if (idx>=0) hd.tasks[idx] = task;
-else hd.tasks.push(task);
-
-closeTaskModal();
-render();
+const hd=houseData();
+const idx=hd.tasks.findIndex(t=>t.id===task.id);
+if(idx>=0)hd.tasks[idx]=task; else hd.tasks.push(task);
+closeTaskModal(); render();
 await saveToGitHub();
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// TASK ACTIONS
-// ═══════════════════════════════════════════════════════════════════════
-function toggleCard(id) {
-const task = houseData().tasks.find(t=>t.id===id);
-if (task) task._open = !task._open;
-render();
+// ══════════════════════════════════════════════════════════
+// ACTIONS
+// ══════════════════════════════════════════════════════════
+function toggleCard(id){
+const t=houseData().tasks.find(t=>t.id===id);
+if(t)t._open=!t._open; render();
 }
-
-async function toggleTaskDone(id) {
-const task = houseData().tasks.find(t=>t.id===id);
-if (task) task.done = !task.done;
-render();
-await saveToGitHub();
+async function toggleTaskDone(id){
+const t=houseData().tasks.find(t=>t.id===id);
+if(t)t.done=!t.done; render(); await saveToGitHub();
 }
-
-async function toggleItem(taskId, itemId) {
-const task = houseData().tasks.find(t=>t.id===taskId);
-if (!task) return;
-const item = task.items.find(i=>i.id===itemId);
-if (item) item.done = !item.done;
-render();
-await saveToGitHub();
+async function toggleItem(taskId,itemId){
+const t=houseData().tasks.find(t=>t.id===taskId); if(!t)return;
+const i=t.items.find(i=>i.id===itemId); if(i)i.done=!i.done;
+render(); await saveToGitHub();
 }
-
-async function deleteTask(id) {
-if (!confirm(‘Supprimer cette tâche ?’)) return;
-const hd = houseData();
-hd.tasks = hd.tasks.filter(t=>t.id!==id);
-render();
-await saveToGitHub();
+async function deleteTask(id){
+if(!confirm(‘Supprimer cette tâche ?’))return;
+houseData().tasks=houseData().tasks.filter(t=>t.id!==id);
+render(); await saveToGitHub();
 }
-
-// ═══════════════════════════════════════════════════════════════════════
-// UNBOUND ITEMS
-// ═══════════════════════════════════════════════════════════════════════
-async function addUnbound() {
-const name = document.getElementById(‘new-item-name’)?.value.trim();
-const price = document.getElementById(‘new-item-price’)?.value.trim();
-if (!name) return;
-const hd = houseData();
-if (!hd.unboundItems) hd.unboundItems = [];
-hd.unboundItems.push({ id: uid(), name, price, done: false });
-render();
-await saveToGitHub();
+async function addUnbound(){
+const name=document.getElementById(‘new-item-name’)?.value.trim();
+const price=document.getElementById(‘new-item-price’)?.value.trim();
+if(!name)return;
+const hd=houseData(); if(!hd.unboundItems)hd.unboundItems=[];
+hd.unboundItems.push({id:uid(),name,price,done:false});
+render(); await saveToGitHub();
 }
-
-async function toggleUnbound(id) {
-const item = houseData().unboundItems?.find(i=>i.id===id);
-if (item) item.done = !item.done;
-render();
-await saveToGitHub();
+async function toggleUnbound(id){
+const i=houseData().unboundItems?.find(i=>i.id===id);
+if(i)i.done=!i.done; render(); await saveToGitHub();
 }
-
-async function deleteUnbound(id) {
-const hd = houseData();
-hd.unboundItems = (hd.unboundItems||[]).filter(i=>i.id!==id);
-render();
-await saveToGitHub();
+async function deleteUnbound(id){
+houseData().unboundItems=(houseData().unboundItems||[]).filter(i=>i.id!==id);
+render(); await saveToGitHub();
 }
-
-// ═══════════════════════════════════════════════════════════════════════
-// PHOTOS VIEWER
-// ═══════════════════════════════════════════════════════════════════════
-function openPhoto(photoId, taskId, type) {
-const task = houseData().tasks.find(t=>t.id===taskId);
-const photos = type===‘before’ ? task?.photos_before : task?.photos_inspiration;
-const photo = photos?.find(p=>p.id===photoId);
-if (photo) openPhotoFromData(photo.data);
-}
-
-function openPhotoFromData(data) {
-document.getElementById(‘photo-modal-img’).src = data;
+function viewPhoto(data){
+document.getElementById(‘photo-modal-img’).src=data;
 document.getElementById(‘photo-modal’).classList.add(‘open’);
 }
 
-function closePhotoModal() {
-document.getElementById(‘photo-modal’).classList.remove(‘open’);
+// ══════════════════════════════════════════════════════════
+// INIT — token sauvegardé = connexion automatique
+// ══════════════════════════════════════════════════════════
+(async function init(){
+const saved=localStorage.getItem(‘mt_token’);
+if(saved){
+TOKEN=saved;
+const ok=await loadFromGitHub();
+if(ok){
+document.getElementById(‘setup-screen’).style.display=‘none’;
+document.getElementById(‘app’).style.display=‘block’;
+render();
+setInterval(pollGitHub,20000);
+} else {
+TOKEN=’’;
+localStorage.removeItem(‘mt_token’);
 }
-
-// ═══════════════════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════════════════
-function attachEvents() {
-// Réinitialise les items du formulaire si le modal est ouvert
-const task = STATE.editingTaskId ? houseData().tasks.find(t=>t.id===STATE.editingTaskId) : null;
-_formItems = task?.items ? […task.items] : [];
 }
-
-function formatDate(d) {
-if (!d) return ‘’;
-return new Date(d+‘T00:00:00’).toLocaleDateString(‘fr-CH’, { day:‘numeric’, month:‘long’ });
-}
-
-function esc(str) {
-if (!str) return ‘’;
-return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);
-}
-
-// ═══════════════════════════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════════════════════════
-loadConfig();
-if (CONFIG.token && CONFIG.user && CONFIG.repo) {
-loadFromGitHub(true).then(ok => {
-if (ok) showApp();
-});
-}
+})();
 </script>
 
 </body>
