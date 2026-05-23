@@ -2,684 +2,572 @@
 
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
-  <meta name="theme-color" content="#080a0f" />
-  <title>MoveTogether 🏡</title>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#080f0a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="MoveTogether"/>
+  <title>MoveTogether</title>
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23064e3b'/%3E%3Ctext y='72' x='50' text-anchor='middle' font-size='58'%3E🏡%3C/text%3E%3C/svg%3E"/>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap');
-    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-    body { background: #080a0f; color: #fff; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
-    input, textarea { color-scheme: dark; font-family: inherit; }
-    input[type=range] { -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; width: 100%; }
-    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
-    ::placeholder { color: #3a3a4a !important; }
-    ::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
-    button:active { opacity: 0.7; }
+    :root {
+      --g1:#10b981; --g2:#059669; --g3:#047857;
+      --bg:#060d08; --bg2:#0a1a0e; --bg3:#0f2416;
+      --card:rgba(16,185,129,0.06); --card-border:rgba(16,185,129,0.12);
+      --text:#f0fdf4; --text2:#a7f3d0; --muted:#4b7a62; --muted2:#2d5240;
+      --danger:#ef4444; --warn:#f59e0b;
+      --safe-top:env(safe-area-inset-top,0px);
+      --safe-bot:env(safe-area-inset-bottom,0px);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+    html{height:100%;}
+    body{background:var(--bg);color:var(--text);font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;min-height:100vh;overscroll-behavior:none;}
+    input,textarea{color-scheme:dark;font-family:inherit;}
+    input[type=range]{-webkit-appearance:none;height:5px;background:var(--muted2);border-radius:3px;outline:none;width:100%;}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.4);}
+    ::placeholder{color:var(--muted2)!important;}
+    ::-webkit-scrollbar{width:0;}
 
 ```
-#setup-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
-.setup-card { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 420px; }
-.setup-title { font-size: 28px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
-.setup-sub { color: #555; font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+/* ── SETUP ── */
+#setup{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px;padding-top:calc(24px + var(--safe-top));}
+.setup-card{background:var(--bg2);border:1px solid var(--card-border);border-radius:28px;padding:32px 24px;width:100%;max-width:400px;box-shadow:0 0 80px rgba(16,185,129,0.08);}
 
-#app { display: none; }
-.header { position: sticky; top: 0; z-index: 100; background: rgba(8,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 16px; }
-.header-inner { max-width: 620px; margin: 0 auto; }
-.app-title { font-size: 19px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
-.content { max-width: 620px; margin: 0 auto; padding: 16px 16px 100px; }
+.logo-wrap{display:flex;flex-direction:column;align-items:center;margin-bottom:28px;}
+.logo-svg{width:80px;height:80px;margin-bottom:12px;filter:drop-shadow(0 0 20px rgba(16,185,129,0.4));}
+.logo-name{font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--g1),#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.5px;}
+.logo-sub{color:var(--muted);font-size:13px;margin-top:2px;}
 
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
-.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
-.house-btn { padding: 9px 10px; border-radius: 12px; cursor: pointer; border: 2px solid rgba(255,255,255,0.06); color: #555; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; justify-content: center; transition: all 0.2s; background: rgba(255,255,255,0.04); font-family: inherit; }
-.house-btn.active { background: rgba(99,102,241,0.22); border-color: rgba(99,102,241,0.45); color: #a5b4fc; }
-.tab-btn { padding: 8px 0; border-radius: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); color: #444; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; justify-content: center; transition: all 0.2s; background: transparent; font-family: inherit; }
-.tab-btn.active { background: rgba(99,102,241,0.2); border-color: rgba(99,102,241,0.35); color: #818cf8; }
+.setup-hint{color:var(--muted);font-size:13px;line-height:1.6;margin-bottom:20px;text-align:center;}
 
-.field { margin-bottom: 14px; }
-.field label { display: block; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
-.inp { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; color: #fff; font-size: 15px; outline: none; font-family: inherit; }
-textarea.inp { min-height: 68px; resize: vertical; }
+/* ── APP ── */
+#app{display:none;}
+.header{position:sticky;top:0;z-index:100;background:rgba(6,13,8,0.92);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(16,185,129,0.08);padding:12px 16px;padding-top:calc(12px + var(--safe-top));}
+.header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+.header-logo{display:flex;align-items:center;gap:9px;}
+.header-logo-icon{width:34px;height:34px;}
+.header-logo-text{font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--g1),#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.3px;}
+.sync-pill{display:flex;align-items:center;gap:5px;background:var(--card);border:1px solid var(--card-border);border-radius:20px;padding:5px 10px;font-size:11px;color:var(--muted);}
+.sync-dot{width:6px;height:6px;border-radius:50%;}
+.sync-ok{background:#22c55e;box-shadow:0 0 6px #22c55e;}
+.sync-ing{background:var(--warn);animation:pulse 1s ease-in-out infinite;}
+.sync-err{background:var(--danger);}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-.btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; border-radius: 12px; font-family: inherit; font-weight: 700; padding: 10px 16px; font-size: 14px; transition: opacity 0.15s; }
-.btn-primary { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; }
-.btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #aaa; }
-.btn-danger { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); color: #f87171; }
-.btn-accent { background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
-.btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 9px; }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.seg-control{display:grid;gap:6px;}
+.seg-2{grid-template-columns:1fr 1fr;}
+.seg-3{grid-template-columns:repeat(3,1fr);margin-top:8px;}
+.seg-btn{padding:10px 8px;border-radius:14px;border:1.5px solid rgba(16,185,129,0.1);background:rgba(16,185,129,0.04);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;justify-content:center;transition:all 0.2s;font-family:inherit;cursor:pointer;letter-spacing:-0.1px;}
+.seg-btn.active{background:rgba(16,185,129,0.18);border-color:rgba(16,185,129,0.4);color:var(--g1);}
 
-.modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: flex-end; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal-box { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; animation: slideUp 0.3s cubic-bezier(0.34,1.26,0.64,1); }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.modal-title { font-size: 18px; font-weight: 800; color: #fff; }
-@keyframes slideUp { from { opacity:0; transform:translateY(40px) } to { opacity:1; transform:translateY(0) } }
+.content{max-width:620px;margin:0 auto;padding:16px 16px;padding-bottom:calc(90px + var(--safe-bot));}
 
-.task-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 10px; }
-.task-card.done { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.18); }
-.task-card-header { padding: 13px 15px; display: flex; gap: 11px; align-items: flex-start; cursor: pointer; }
-.task-card-body { padding: 0 15px 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+/* ── INPUTS ── */
+.field{margin-bottom:14px;}
+.field-label{display:block;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;}
+.inp{width:100%;background:rgba(16,185,129,0.06);border:1.5px solid rgba(16,185,129,0.12);border-radius:14px;padding:12px 16px;color:var(--text);font-size:16px;outline:none;font-family:inherit;transition:border-color 0.2s;-webkit-appearance:none;}
+.inp:focus{border-color:rgba(16,185,129,0.4);}
+textarea.inp{min-height:72px;resize:none;}
 
-.checkbox { width: 26px; height: 26px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.checkbox.checked { border-color: #22c55e !important; background: #22c55e !important; }
-.checkbox-sm { width: 20px; height: 20px; border-radius: 6px; }
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;border:none;border-radius:14px;font-family:inherit;font-weight:700;padding:13px 18px;font-size:15px;transition:all 0.15s;letter-spacing:-0.2px;}
+.btn-primary{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;box-shadow:0 4px 20px rgba(16,185,129,0.3);}
+.btn-primary:active{transform:scale(0.97);}
+.btn-ghost{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);color:#aaa;}
+.btn-danger{background:rgba(239,68,68,0.1);border:1.5px solid rgba(239,68,68,0.2);color:#f87171;}
+.btn-accent{background:rgba(16,185,129,0.12);border:1.5px solid rgba(16,185,129,0.2);color:var(--g1);}
+.btn-sm{padding:7px 12px;font-size:13px;border-radius:10px;}
+.btn:disabled{opacity:0.45;cursor:not-allowed;}
 
-.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 18px; }
-.stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 13px; padding: 13px 10px; text-align: center; }
-.stat-val { font-size: 21px; font-weight: 800; }
-.stat-lbl { color: #666; font-size: 11px; margin-top: 2px; }
+/* ── MODAL ── */
+.modal-ov{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,8,3,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);align-items:flex-end;justify-content:center;}
+.modal-ov.open{display:flex;}
+.modal-box{background:var(--bg2);border:1px solid var(--card-border);border-radius:28px 28px 0 0;padding:20px 20px;padding-bottom:calc(24px + var(--safe-bot));width:100%;max-width:580px;max-height:92vh;overflow-y:auto;animation:slideUp 0.32s cubic-bezier(0.34,1.2,0.64,1);}
+.modal-handle{width:36px;height:4px;background:rgba(255,255,255,0.12);border-radius:2px;margin:0 auto 18px;}
+.modal-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.modal-title{font-size:19px;font-weight:800;color:var(--text);letter-spacing:-0.3px;}
+@keyframes slideUp{from{opacity:0;transform:translateY(50px)}to{opacity:1;transform:translateY(0)}}
 
-.photo-grid { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-.photo-thumb { position: relative; width: 72px; height: 72px; }
-.photo-thumb img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
-.photo-del { position: absolute; top: -5px; right: -5px; background: #ef4444; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; }
-.photo-add { width: 72px; height: 72px; background: rgba(99,102,241,0.1); border: 2px dashed rgba(99,102,241,0.35); border-radius: 10px; cursor: pointer; color: #818cf8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 700; font-family: inherit; }
+/* ── CARDS ── */
+.task-card{background:var(--card);border:1.5px solid var(--card-border);border-radius:20px;overflow:hidden;margin-bottom:10px;transition:all 0.2s;}
+.task-card.done{background:rgba(34,197,94,0.04);border-color:rgba(34,197,94,0.15);}
+.task-card-hdr{padding:14px 16px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;}
+.task-card-body{padding:0 16px 16px;border-top:1px solid rgba(16,185,129,0.07);}
 
-.urgency-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; border-width: 2px; border-style: solid; flex-shrink: 0; }
-.tag { background: rgba(99,102,241,0.18); color: #818cf8; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
-.section-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 12px; }
-.spinner { animation: spin 1s linear infinite; display: inline-block; }
-@keyframes spin { to { transform: rotate(360deg) } }
-.sync-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
-.sync-ok { background: #22c55e; }
-.sync-ing { background: #f59e0b; animation: pulse 1s ease-in-out infinite; }
-.sync-err { background: #ef4444; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.empty-state { text-align: center; color: #444; padding: 48px 0; }
-.item-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: rgba(255,255,255,0.04); border-radius: 11px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.06); }
-.row-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-.gap-8 { display: flex; gap: 8px; }
-.gap-6 { display: flex; gap: 6px; flex-wrap: wrap; }
+/* ── CHECKBOX ── */
+.chk{width:26px;height:26px;border-radius:8px;border:2px solid var(--muted2);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;}
+.chk.on{border-color:#22c55e!important;background:#22c55e!important;}
+.chk-sm{width:22px;height:22px;border-radius:7px;}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:18px;}
+.stat{background:var(--card);border:1.5px solid var(--card-border);border-radius:16px;padding:14px 10px;text-align:center;}
+.stat-v{font-size:22px;font-weight:800;letter-spacing:-0.5px;}
+.stat-l{color:var(--muted);font-size:11px;margin-top:2px;font-weight:600;}
+
+/* ── PHOTOS ── */
+.photo-grid{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+.photo-thumb{position:relative;width:74px;height:74px;}
+.photo-thumb img{width:74px;height:74px;object-fit:cover;border-radius:12px;border:1.5px solid rgba(16,185,129,0.15);cursor:pointer;}
+.photo-del{position:absolute;top:-6px;right:-6px;background:#ef4444;border:none;border-radius:50%;width:22px;height:22px;cursor:pointer;color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.4);}
+.photo-add{width:74px;height:74px;background:rgba(16,185,129,0.08);border:2px dashed rgba(16,185,129,0.25);border-radius:12px;cursor:pointer;color:var(--g1);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;font-weight:700;font-family:inherit;}
+
+.urg-badge{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;border-width:2px;border-style:solid;flex-shrink:0;}
+.tag{background:rgba(16,185,129,0.15);color:var(--g1);font-size:11px;padding:3px 9px;border-radius:20px;font-weight:700;}
+.sec-lbl{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;margin-top:14px;}
+.item-row{display:flex;align-items:center;gap:10px;padding:10px 13px;background:rgba(16,185,129,0.04);border-radius:13px;margin-bottom:6px;border:1px solid rgba(16,185,129,0.08);}
+.row-btw{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.flex-gap8{display:flex;gap:8px;}
+.flex-gap6{display:flex;gap:6px;flex-wrap:wrap;}
+.empty{text-align:center;color:var(--muted2);padding:52px 0;}
+.empty-ico{font-size:48px;margin-bottom:14px;}
+
+/* ── SETUP ERROR ── */
+.err-box{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:12px 14px;color:#f87171;font-size:13px;line-height:1.5;margin-top:12px;display:none;}
 ```
 
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════ SETUP -->
+<!-- ══════════ SETUP ══════════ -->
 
-<div id="setup-screen">
+<div id="setup">
   <div class="setup-card">
-    <div class="setup-title">MoveTogether 🏡</div>
-    <div class="setup-sub">Entre ton token GitHub une seule fois — tout le reste est déjà configuré.</div>
+    <div class="logo-wrap">
+      <!-- Logo SVG carton + maison -->
+      <svg class="logo-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lg1" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#10b981"/><stop offset="1" stop-color="#059669"/>
+          </linearGradient>
+          <linearGradient id="lg2" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#34d399"/><stop offset="1" stop-color="#10b981"/>
+          </linearGradient>
+        </defs>
+        <!-- Carton -->
+        <rect x="8" y="36" width="64" height="38" rx="5" fill="url(#lg1)" opacity="0.9"/>
+        <rect x="8" y="36" width="64" height="10" rx="2" fill="url(#lg2)" opacity="0.7"/>
+        <line x1="40" y1="36" x2="40" y2="74" stroke="rgba(255,255,255,0.3)" stroke-width="2" stroke-dasharray="3 2"/>
+        <path d="M30 41 Q40 38 50 41" stroke="rgba(255,255,255,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Maison -->
+        <path d="M24 36 L40 18 L56 36" fill="#064e3b" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
+        <rect x="30" y="25" width="20" height="11" rx="2" fill="#065f46"/>
+        <rect x="36" y="28" width="8" height="8" rx="1" fill="#10b981" opacity="0.8"/>
+        <!-- Étoile déco -->
+        <circle cx="64" cy="14" r="3" fill="#34d399" opacity="0.6"/>
+        <circle cx="18" cy="20" r="2" fill="#6ee7b7" opacity="0.4"/>
+      </svg>
+      <div class="logo-name">MoveTogether</div>
+      <div class="logo-sub">Notre déménagement ✨</div>
+    </div>
 
 ```
+<p class="setup-hint">Entre ton token GitHub une seule fois — tout est mémorisé ensuite.</p>
+
 <div class="field">
-  <label>Token GitHub</label>
-  <input class="inp" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" />
+  <label class="field-label">Token GitHub</label>
+  <input class="inp" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off" autocorrect="off" spellcheck="false"/>
 </div>
 
-<button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px" id="connect-btn" onclick="setupApp()">
+<button class="btn btn-primary" style="width:100%;margin-top:4px" id="connect-btn" onclick="doSetup()">
   Connecter →
 </button>
-<div id="setup-error" style="color:#f87171;font-size:13px;margin-top:12px;display:none;line-height:1.5"></div>
+<div class="err-box" id="err-box"></div>
 
-<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);color:#444;font-size:12px;line-height:1.6">
-  💡 Crée un token : GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → droits <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px">repo</code>
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(16,185,129,0.08);color:var(--muted2);font-size:12px;line-height:1.7">
+  💡 GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → coche <b style="color:var(--muted)">repo</b>
 </div>
 ```
 
   </div>
 </div>
 
-<!-- ══════════════════════════════════ APP -->
+<!-- ══════════ APP ══════════ -->
 
 <div id="app">
   <div class="header">
-    <div class="header-inner">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <div class="app-title">MoveTogether 🏡</div>
-        <div style="display:flex;align-items:center;gap:10px">
-          <div style="display:flex;align-items:center;font-size:12px;color:#555">
-            <span class="sync-dot sync-ok" id="sync-dot"></span>
-            <span id="sync-label">Synchronisé</span>
-          </div>
-          <button class="btn btn-ghost btn-sm" onclick="logout()" style="font-size:11px;padding:5px 9px">Déco</button>
+    <div class="header-top">
+      <div class="header-logo">
+        <svg class="header-logo-icon" viewBox="0 0 80 80" fill="none">
+          <defs>
+            <linearGradient id="hlg" x1="0" y1="0" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#10b981"/><stop offset="1" stop-color="#059669"/>
+            </linearGradient>
+          </defs>
+          <rect x="8" y="36" width="64" height="38" rx="5" fill="url(#hlg)" opacity="0.9"/>
+          <rect x="8" y="36" width="64" height="10" rx="2" fill="#34d399" opacity="0.6"/>
+          <line x1="40" y1="36" x2="40" y2="74" stroke="rgba(255,255,255,0.25)" stroke-width="2" stroke-dasharray="3 2"/>
+          <path d="M30 41 Q40 38 50 41" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M24 36 L40 18 L56 36" fill="#064e3b" stroke="#10b981" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="30" y="25" width="20" height="11" rx="2" fill="#065f46"/>
+          <rect x="36" y="28" width="8" height="8" rx="1" fill="#10b981" opacity="0.8"/>
+        </svg>
+        <span class="header-logo-text">MoveTogether</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <div class="sync-pill">
+          <span class="sync-dot sync-ok" id="sync-dot"></span>
+          <span id="sync-lbl">Sync</span>
         </div>
+        <button class="btn btn-ghost btn-sm" onclick="logout()" style="font-size:11px;padding:6px 10px">Déco</button>
       </div>
-      <div class="grid-2">
-        <button class="house-btn active" id="btn-current" onclick="switchHouse('current')">🏠 Maison actuelle</button>
-        <button class="house-btn" id="btn-future" onclick="switchHouse('future')">✨ Nouvelle maison</button>
-      </div>
-      <div class="grid-3" style="margin-top:8px">
-        <button class="tab-btn active" id="tab-summary" onclick="switchTab('summary')">📋 Résumé</button>
-        <button class="tab-btn" id="tab-shopping" onclick="switchTab('shopping')">🛒 Achats</button>
-        <button class="tab-btn" id="tab-calendar" onclick="switchTab('calendar')">📅 Calendrier</button>
-      </div>
+    </div>
+    <div class="seg-control seg-2">
+      <button class="seg-btn active" id="btn-current" onclick="switchHouse('current')">🏠 Maison actuelle</button>
+      <button class="seg-btn" id="btn-future" onclick="switchHouse('future')">✨ Nouvelle maison</button>
+    </div>
+    <div class="seg-control seg-3">
+      <button class="seg-btn active" id="tab-summary" onclick="switchTab('summary')">📋 Résumé</button>
+      <button class="seg-btn" id="tab-shopping" onclick="switchTab('shopping')">🛒 Achats</button>
+      <button class="seg-btn" id="tab-calendar" onclick="switchTab('calendar')">📅 Agenda</button>
     </div>
   </div>
+
   <div class="content">
-    <div class="row-between">
-      <div id="section-title" style="font-size:15px;font-weight:700;color:#888"></div>
-      <button class="btn btn-primary btn-sm" id="new-task-btn" onclick="openTaskModal(null)">+ Nouvelle tâche</button>
+    <div class="row-btw">
+      <div id="sec-title" style="font-size:14px;font-weight:700;color:var(--muted)"></div>
+      <button class="btn btn-primary btn-sm" id="new-task-btn" onclick="openModal(null)">+ Nouvelle tâche</button>
     </div>
-    <div id="view-container"></div>
+    <div id="view"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════ TASK MODAL -->
+<!-- ══════════ TASK MODAL ══════════ -->
 
-<div class="modal-overlay" id="task-modal">
+<div class="modal-ov" id="task-modal">
   <div class="modal-box">
-    <div class="modal-header">
+    <div class="modal-handle"></div>
+    <div class="modal-hdr">
       <div class="modal-title" id="modal-title">Nouvelle tâche</div>
-      <button class="btn btn-ghost btn-sm" onclick="closeTaskModal()">✕</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">✕</button>
     </div>
     <div id="task-form"></div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════ PHOTO MODAL -->
+<!-- ══════════ PHOTO VIEWER ══════════ -->
 
-<div class="modal-overlay" id="photo-modal" onclick="document.getElementById('photo-modal').classList.remove('open')">
+<div class="modal-ov" id="photo-modal" onclick="this.classList.remove('open')">
   <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:20px">
-    <img id="photo-modal-img" src="" style="max-width:100%;max-height:90vh;border-radius:16px" />
+    <img id="photo-img" src="" style="max-width:100%;max-height:88vh;border-radius:18px;box-shadow:0 0 60px rgba(0,0,0,0.8)"/>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════
-// CONFIG — pré-rempli, tu n'as besoin que du token
-// ══════════════════════════════════════════════════════════
-const GH_USER  = 'loulisse';
-const GH_REPO  = 'Movetogether-';
-const GH_FILE  = 'data.json';
+// ══════════════════════════════════════════════
+// CONSTANTS — pré-configuré pour loulisse
+// ══════════════════════════════════════════════
+const GH_USER = 'loulisse';
+const GH_REPO = 'Movetogether-';
+const GH_FILE = 'data.json';
 
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // STATE
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 let TOKEN = '';
-let STATE = {
-  house: 'current',
-  tab: 'summary',
-  data: { current: { tasks:[], unboundItems:[] }, future: { tasks:[], unboundItems:[] } },
-  sha: null,
-  editingTaskId: null,
-  formPhotos: { before:[], inspiration:[] },
-  formItems: []
+let S = {
+  house:'current', tab:'summary',
+  data:{ current:{tasks:[],unboundItems:[]}, future:{tasks:[],unboundItems:[]} },
+  sha:null, editId:null,
+  fPhotos:{before:[],inspiration:[]}, fItems:[]
 };
 
-const UC = ['','#22c55e','#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#f97316','#f97316','#ef4444','#ef4444'];
-function uc(u){ return UC[u]||'#22c55e'; }
-function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
-function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function houseData(){ return STATE.data[STATE.house]; }
-function itemsTotal(items){ return (items||[]).reduce((s,i)=>s+(parseFloat(i.price)||0),0); }
-function formatDate(d){ if(!d)return''; return new Date(d+'T00:00:00').toLocaleDateString('fr-CH',{day:'numeric',month:'long'}); }
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+const UC=['','#22c55e','#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#f97316','#f97316','#ef4444','#ef4444'];
+const uc=u=>UC[u]||'#22c55e';
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const esc=s=>String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const hd=()=>S.data[S.house];
+const iTotal=items=>(items||[]).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+const fmtDate=d=>{if(!d)return'';return new Date(d+'T00:00:00').toLocaleDateString('fr-CH',{day:'numeric',month:'short'});};
+const chkSVG=(sz=13)=>`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="${sz}" height="${sz}" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
 
-// ══════════════════════════════════════════════════════════
-// SETUP & AUTH
-// ══════════════════════════════════════════════════════════
-function showErr(msg){
-  const el=document.getElementById('setup-error');
-  el.innerHTML=msg; el.style.display='block';
-}
-
-async function setupApp(){
-  const t = document.getElementById('gh-token').value.trim();
-  if(!t){ showErr('Entre ton token GitHub.'); return; }
-
-  const btn = document.getElementById('connect-btn');
+// ══════════════════════════════════════════════
+// SETUP
+// ══════════════════════════════════════════════
+async function doSetup(){
+  const t=document.getElementById('gh-token').value.trim();
+  const errBox=document.getElementById('err-box');
+  errBox.style.display='none';
+  if(!t){showErr('Entre ton token GitHub.'); return;}
+  const btn=document.getElementById('connect-btn');
   btn.disabled=true; btn.textContent='Connexion…';
-  document.getElementById('setup-error').style.display='none';
-
-  TOKEN = t;
-  const ok = await loadFromGitHub();
-
+  TOKEN=t;
+  const ok=await ghLoad();
   if(ok){
-    localStorage.setItem('mt_token', TOKEN);
-    document.getElementById('setup-screen').style.display='none';
+    localStorage.setItem('mt_tok',TOKEN);
+    document.getElementById('setup').style.display='none';
     document.getElementById('app').style.display='block';
     render();
-    setInterval(pollGitHub, 20000);
+    setInterval(poll,20000);
   } else {
     btn.disabled=false; btn.textContent='Connecter →';
     TOKEN='';
-    showErr('❌ Connexion échouée.<br>Vérifie que ton token a bien les droits <b>repo</b> et qu\'il n\'est pas expiré.');
+    showErr('Connexion échouée. Vérifie que ton token a les droits repo et n\'est pas expiré.');
   }
 }
+function showErr(m){const b=document.getElementById('err-box');b.textContent=m;b.style.display='block';}
+function logout(){localStorage.removeItem('mt_tok');TOKEN='';document.getElementById('app').style.display='none';document.getElementById('setup').style.display='flex';document.getElementById('gh-token').value='';document.getElementById('connect-btn').disabled=false;document.getElementById('connect-btn').textContent='Connecter →';document.getElementById('err-box').style.display='none';}
 
-function logout(){
-  localStorage.removeItem('mt_token');
-  TOKEN='';
-  document.getElementById('app').style.display='none';
-  document.getElementById('setup-screen').style.display='flex';
-  document.getElementById('gh-token').value='';
-  document.getElementById('connect-btn').disabled=false;
-  document.getElementById('connect-btn').textContent='Connecter →';
+// ══════════════════════════════════════════════
+// GITHUB
+// ══════════════════════════════════════════════
+const ghUrl=()=>`https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`;
+const ghH=()=>({'Authorization':'token '+TOKEN,'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'});
+
+async function ghLoad(){
+  try{
+    const r=await fetch(ghUrl(),{headers:ghH()});
+    if(r.status===404){S.sha=null;return await ghSave();}
+    if(!r.ok)return false;
+    const j=await r.json();
+    S.sha=j.sha;
+    const d=JSON.parse(atob(j.content.replace(/\n/g,'')));
+    if(!d.current)d.current={tasks:[],unboundItems:[]};
+    if(!d.future) d.future ={tasks:[],unboundItems:[]};
+    S.data=d; return true;
+  }catch(e){console.error(e);return false;}
 }
-
-// ══════════════════════════════════════════════════════════
-// GITHUB API
-// ══════════════════════════════════════════════════════════
-function ghUrl(){ return `https://api.github.com/repos/${GH_USER}/${GH_REPO}/contents/${GH_FILE}`; }
-function ghHeaders(){ return { 'Authorization':'token '+TOKEN, 'Content-Type':'application/json', 'Accept':'application/vnd.github.v3+json' }; }
-
-async function loadFromGitHub(){
-  try {
-    const res = await fetch(ghUrl(), { headers: ghHeaders() });
-    if(res.status===404){
-      STATE.sha=null;
-      return await saveToGitHub();
-    }
-    if(!res.ok) return false;
-    const json = await res.json();
-    STATE.sha = json.sha;
-    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
-    if(!decoded.current) decoded.current={tasks:[],unboundItems:[]};
-    if(!decoded.future)  decoded.future ={tasks:[],unboundItems:[]};
-    STATE.data = decoded;
+async function ghSave(){
+  setSyncSt('ing');
+  try{
+    const content=btoa(unescape(encodeURIComponent(JSON.stringify(S.data,null,2))));
+    const body={message:'update',content};
+    if(S.sha)body.sha=S.sha;
+    const r=await fetch(ghUrl(),{method:'PUT',headers:ghH(),body:JSON.stringify(body)});
+    if(!r.ok){setSyncSt('err');return false;}
+    const j=await r.json();
+    S.sha=j.content.sha;
+    setSyncSt('ok');
     return true;
-  } catch(e){ console.error(e); return false; }
+  }catch{setSyncSt('err');return false;}
+}
+async function poll(){const ok=await ghLoad();if(ok)render();}
+function setSyncSt(s){
+  const d=document.getElementById('sync-dot'),l=document.getElementById('sync-lbl');
+  if(!d)return;
+  d.className='sync-dot '+(s==='ok'?'sync-ok':s==='ing'?'sync-ing':'sync-err');
+  l.textContent=s==='ok'?'Synchronisé':s==='ing'?'Sync…':'Erreur';
 }
 
-async function saveToGitHub(){
-  setSyncStatus('ing');
-  try {
-    const content = btoa(unescape(encodeURIComponent(JSON.stringify(STATE.data,null,2))));
-    const body = { message:'update data', content };
-    if(STATE.sha) body.sha = STATE.sha;
-    const res = await fetch(ghUrl(), { method:'PUT', headers:ghHeaders(), body:JSON.stringify(body) });
-    if(!res.ok){ setSyncStatus('err'); return false; }
-    const json = await res.json();
-    STATE.sha = json.content.sha;
-    setSyncStatus('ok');
-    return true;
-  } catch { setSyncStatus('err'); return false; }
-}
+// ══════════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════════
+function switchHouse(h){S.house=h;document.getElementById('btn-current').classList.toggle('active',h==='current');document.getElementById('btn-future').classList.toggle('active',h==='future');render();}
+function switchTab(t){S.tab=t;['summary','shopping','calendar'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===t));document.getElementById('new-task-btn').style.display=t==='calendar'?'none':'';render();}
 
-async function pollGitHub(){
-  const res = await loadFromGitHub();
-  if(res) render();
-}
-
-function setSyncStatus(s){
-  const dot=document.getElementById('sync-dot');
-  const lbl=document.getElementById('sync-label');
-  if(!dot)return;
-  dot.className='sync-dot '+(s==='ok'?'sync-ok':s==='ing'?'sync-ing':'sync-err');
-  lbl.textContent=s==='ok'?'Synchronisé':s==='ing'?'Sync…':'Erreur sync';
-}
-
-// ══════════════════════════════════════════════════════════
-// NAVIGATION
-// ══════════════════════════════════════════════════════════
-function switchHouse(h){
-  STATE.house=h;
-  document.getElementById('btn-current').classList.toggle('active',h==='current');
-  document.getElementById('btn-future').classList.toggle('active',h==='future');
-  render();
-}
-function switchTab(t){
-  STATE.tab=t;
-  ['summary','shopping','calendar'].forEach(id=>document.getElementById('tab-'+id).classList.toggle('active',id===t));
-  document.getElementById('new-task-btn').style.display=t==='calendar'?'none':'';
-  render();
-}
-
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // RENDER
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 function render(){
-  const labels={summary:'Résumé',shopping:'Achats',calendar:'Calendrier'};
-  document.getElementById('section-title').textContent=
-    (STATE.house==='current'?'🏠 Maison actuelle':'✨ Nouvelle maison')+' · '+labels[STATE.tab];
-  const c=document.getElementById('view-container');
-  if(STATE.tab==='summary')  c.innerHTML=renderSummary();
-  if(STATE.tab==='shopping') c.innerHTML=renderShopping();
-  if(STATE.tab==='calendar') c.innerHTML=renderCalendar();
+  const lbls={summary:'Résumé',shopping:'Achats',calendar:'Agenda'};
+  document.getElementById('sec-title').textContent=(S.house==='current'?'🏠 Actuelle':'✨ Nouvelle')+' · '+lbls[S.tab];
+  const v=document.getElementById('view');
+  if(S.tab==='summary') v.innerHTML=rSummary();
+  if(S.tab==='shopping')v.innerHTML=rShopping();
+  if(S.tab==='calendar')v.innerHTML=rCalendar();
 }
 
-// ─── SUMMARY ──────────────────────────────────────────────
-function renderSummary(){
-  const tasks=houseData().tasks||[];
+// ─── SUMMARY ───────────────────────────────────
+function rSummary(){
+  const tasks=hd().tasks||[];
   const done=tasks.filter(t=>t.done).length;
-  const budget=tasks.reduce((s,t)=>s+itemsTotal(t.items),0);
-  const urgent=tasks.filter(t=>t.urgency>=8&&!t.done).length;
-  let html=`<div class="stats-grid">
-    <div class="stat-card"><div class="stat-val" style="color:#22c55e">${done}/${tasks.length}</div><div class="stat-lbl">tâches</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:#818cf8">~${budget.toFixed(0)}</div><div class="stat-lbl">CHF estimé</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:#ef4444">${urgent}</div><div class="stat-lbl">urgentes</div></div>
+  const budget=tasks.reduce((s,t)=>s+iTotal(t.items),0);
+  const urg=tasks.filter(t=>t.urgency>=8&&!t.done).length;
+  let h=`<div class="stats">
+    <div class="stat"><div class="stat-v" style="color:#22c55e">${done}/${tasks.length}</div><div class="stat-l">Tâches</div></div>
+    <div class="stat"><div class="stat-v" style="color:var(--g1)">~${budget.toFixed(0)}</div><div class="stat-l">CHF estimé</div></div>
+    <div class="stat"><div class="stat-v" style="color:#ef4444">${urg}</div><div class="stat-l">Urgentes</div></div>
   </div>`;
-  if(!tasks.length) return html+`<div class="empty-state"><div style="font-size:44px;margin-bottom:12px">📋</div>Aucune tâche — commence !</div>`;
-  [...tasks].sort((a,b)=>b.urgency-a.urgency).forEach(t=>{ html+=renderTaskCard(t); });
-  return html;
+  if(!tasks.length)return h+`<div class="empty"><div class="empty-ico">📦</div>Aucune tâche — commence !</div>`;
+  [...tasks].sort((a,b)=>b.urgency-a.urgency).forEach(t=>{h+=rCard(t);});
+  return h;
 }
 
-function renderTaskCard(t){
-  const total=itemsTotal(t.items);
-  const doneI=(t.items||[]).filter(i=>i.done).length;
-  const photoN=(t.photos_before||[]).length+(t.photos_inspiration||[]).length;
-  const color=uc(t.urgency);
+function rCard(t){
+  const tot=iTotal(t.items),dI=(t.items||[]).filter(i=>i.done).length,pN=(t.photos_before||[]).length+(t.photos_inspiration||[]).length;
+  const col=uc(t.urgency);
   let meta='';
-  if(t.deadline) meta+=`<span style="color:#777;font-size:12px">📅 ${formatDate(t.deadline)}</span>`;
-  if(total>0)    meta+=`<span style="color:#818cf8;font-size:12px;font-weight:600">💰 ~${total.toFixed(0)} CHF</span>`;
-  if(t.items?.length) meta+=`<span style="color:#666;font-size:12px">${doneI}/${t.items.length} articles</span>`;
-  if(photoN>0)   meta+=`<span style="color:#666;font-size:12px">🖼 ${photoN}</span>`;
-
-  const chk=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>`;
-  const chkSm=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`;
+  if(t.deadline)meta+=`<span style="color:var(--muted);font-size:12px">📅 ${fmtDate(t.deadline)}</span>`;
+  if(tot>0)meta+=`<span style="color:var(--g1);font-size:12px;font-weight:700">💰 ~${tot.toFixed(0)} CHF</span>`;
+  if(t.items?.length)meta+=`<span style="color:var(--muted);font-size:12px">${dI}/${t.items.length} art.</span>`;
+  if(pN>0)meta+=`<span style="color:var(--muted);font-size:12px">🖼 ${pN}</span>`;
 
   let body='';
   if(t._open){
     body=`<div class="task-card-body">`;
-    if(t.description) body+=`<p style="color:#999;font-size:14px;margin:12px 0;line-height:1.55">${esc(t.description)}</p>`;
+    if(t.description)body+=`<p style="color:#a7f3d0;font-size:14px;margin:12px 0;line-height:1.6;opacity:0.8">${esc(t.description)}</p>`;
     if(t.items?.length){
-      body+=`<div class="section-label">Articles à acheter</div>`;
-      t.items.forEach(item=>{
-        body+=`<div class="item-row" style="padding:7px 10px;border-radius:10px;margin-bottom:4px">
-          <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleItem('${t.id}','${item.id}')" style="cursor:pointer">
-            ${item.done?chkSm:''}
-          </div>
-          <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
-          ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
-        </div>`;
-      });
+      body+=`<div class="sec-lbl">Articles à acheter</div>`;
+      t.items.forEach(i=>{body+=`<div class="item-row"><div class="chk chk-sm ${i.done?'on':''}" onclick="tgItem('${t.id}','${i.id}')" style="cursor:pointer">${i.done?chkSVG(11):''}</div><span style="flex:1;color:${i.done?'var(--muted2)':'var(--text)'};font-size:14px;text-decoration:${i.done?'line-through':'none'}">${esc(i.name)}</span>${i.price?`<span style="color:var(--g1);font-size:13px;font-weight:600">${i.price} CHF</span>`:''}</div>`;});
     }
-    if(t.photos_before?.length){
-      body+=`<div class="section-label">État actuel</div><div class="gap-6" style="margin-bottom:10px">`;
-      t.photos_before.forEach(p=>{ body+=`<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="viewPhoto('${p.data}')" />`; });
-      body+=`</div>`;
-    }
-    if(t.photos_inspiration?.length){
-      body+=`<div class="section-label">Inspiration</div><div class="gap-6" style="margin-bottom:12px">`;
-      t.photos_inspiration.forEach(p=>{ body+=`<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="viewPhoto('${p.data}')" />`; });
-      body+=`</div>`;
-    }
-    body+=`<div class="gap-8">
-      <button class="btn btn-accent btn-sm" onclick="openTaskModal('${t.id}')">✏️ Modifier</button>
-      <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">🗑 Supprimer</button>
-    </div></div>`;
+    if(t.photos_before?.length){body+=`<div class="sec-lbl">État actuel</div><div class="flex-gap6" style="margin-bottom:10px">`;t.photos_before.forEach(p=>{body+=`<img src="${p.data}" style="width:88px;height:66px;object-fit:cover;border-radius:12px;border:1.5px solid rgba(16,185,129,0.15);cursor:pointer" onclick="viewPhoto('${p.data}')"/>`;});body+=`</div>`;}
+    if(t.photos_inspiration?.length){body+=`<div class="sec-lbl">Inspiration</div><div class="flex-gap6" style="margin-bottom:14px">`;t.photos_inspiration.forEach(p=>{body+=`<img src="${p.data}" style="width:88px;height:66px;object-fit:cover;border-radius:12px;border:1.5px solid rgba(16,185,129,0.15);cursor:pointer" onclick="viewPhoto('${p.data}')"/>`;});body+=`</div>`;}
+    body+=`<div class="flex-gap8"><button class="btn btn-accent btn-sm" onclick="openModal('${t.id}')">✏️ Modifier</button><button class="btn btn-danger btn-sm" onclick="delTask('${t.id}')">🗑 Supprimer</button></div></div>`;
   }
 
   return `<div class="task-card ${t.done?'done':''}" id="card-${t.id}">
-    <div class="task-card-header" onclick="toggleCard('${t.id}')">
-      <div class="checkbox ${t.done?'checked':''}" onclick="event.stopPropagation();toggleTaskDone('${t.id}')" style="cursor:pointer;margin-top:2px">
-        ${t.done?chk:''}
-      </div>
+    <div class="task-card-hdr" onclick="tgCard('${t.id}')">
+      <div class="chk ${t.done?'on':''}" onclick="event.stopPropagation();tgDone('${t.id}')" style="cursor:pointer;margin-top:2px">${t.done?chkSVG(13):''}</div>
       <div style="flex:1;min-width:0">
         <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
-          <span style="color:${t.done?'#555':'#f1f5f9'};font-weight:700;font-size:15px;text-decoration:${t.done?'line-through':'none'}">${esc(t.title)}</span>
+          <span style="color:${t.done?'var(--muted2)':'var(--text)'};font-weight:700;font-size:16px;text-decoration:${t.done?'line-through':'none'};letter-spacing:-0.3px">${esc(t.title)}</span>
           ${t.room?`<span class="tag">${esc(t.room)}</span>`:''}
         </div>
-        <div style="display:flex;gap:10px;margin-top:4px;flex-wrap:wrap">${meta}</div>
+        <div style="display:flex;gap:10px;margin-top:5px;flex-wrap:wrap">${meta}</div>
       </div>
       <div style="display:flex;align-items:center;gap:8px">
-        <div class="urgency-badge" style="color:${color};border-color:${color};background:${color}18">${t.urgency}</div>
-        <span style="color:#444;transition:0.2s;display:inline-block;transform:${t._open?'rotate(180deg)':'rotate(0)'};font-size:12px">▾</span>
+        <div class="urg-badge" style="color:${col};border-color:${col};background:${col}18">${t.urgency}</div>
+        <span style="color:var(--muted2);font-size:11px;transition:0.2s;display:inline-block;transform:${t._open?'rotate(180deg)':'rotate(0)'}">▾</span>
       </div>
     </div>${body}
   </div>`;
 }
 
-// ─── SHOPPING ─────────────────────────────────────────────
-function renderShopping(){
-  const tasks=houseData().tasks||[];
-  const unbound=houseData().unboundItems||[];
-  const taskItems=tasks.flatMap(t=>(t.items||[]).map(i=>({...i,taskTitle:t.title})));
-  const all=[...taskItems,...unbound];
-  const totalDone=all.filter(i=>i.done).length;
-  const totalCost=all.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
-  const spent=all.filter(i=>i.done).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
-  const chkSm=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>`;
-
-  let html=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
-    <div class="stat-card"><div class="stat-val" style="color:#22c55e">${totalDone}/${all.length}</div><div class="stat-lbl">achetés</div></div>
-    <div class="stat-card"><div class="stat-val" style="color:#818cf8">${spent.toFixed(0)}/${totalCost.toFixed(0)}</div><div class="stat-lbl">CHF dépensés</div></div>
+// ─── SHOPPING ──────────────────────────────────
+function rShopping(){
+  const tasks=hd().tasks||[],unb=hd().unboundItems||[];
+  const tItems=tasks.flatMap(t=>(t.items||[]).map(i=>({...i,tTitle:t.title})));
+  const all=[...tItems,...unb];
+  const tDone=all.filter(i=>i.done).length,tCost=all.reduce((s,i)=>s+(parseFloat(i.price)||0),0),spent=all.filter(i=>i.done).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+  let h=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
+    <div class="stat"><div class="stat-v" style="color:#22c55e">${tDone}/${all.length}</div><div class="stat-l">Achetés</div></div>
+    <div class="stat"><div class="stat-v" style="color:var(--g1)">${spent.toFixed(0)}/${tCost.toFixed(0)}</div><div class="stat-l">CHF</div></div>
   </div>`;
-
-  if(taskItems.length){
-    html+=`<div class="section-label" style="margin-top:0">Liés à une tâche</div>`;
-    taskItems.forEach(item=>{
-      html+=`<div class="item-row">
-        <div class="checkbox checkbox-sm ${item.done?'checked':''}" style="flex-shrink:0">${item.done?chkSm:''}</div>
-        <div style="flex:1"><div style="color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</div>
-        <div style="color:#555;font-size:11px">📌 ${esc(item.taskTitle)}</div></div>
-        ${item.price?`<span style="color:#818cf8;font-size:13px;font-weight:600">${item.price} CHF</span>`:''}
-      </div>`;
-    });
+  if(tItems.length){
+    h+=`<div class="sec-lbl" style="margin-top:0">Liés à une tâche</div>`;
+    tItems.forEach(i=>{h+=`<div class="item-row"><div class="chk chk-sm ${i.done?'on':''}" style="flex-shrink:0">${i.done?chkSVG(11):''}</div><div style="flex:1"><div style="color:${i.done?'var(--muted2)':'var(--text)'};font-size:14px;text-decoration:${i.done?'line-through':'none'}">${esc(i.name)}</div><div style="color:var(--muted2);font-size:11px">📌 ${esc(i.tTitle)}</div></div>${i.price?`<span style="color:var(--g1);font-size:13px;font-weight:600">${i.price} CHF</span>`:''}</div>`;});
   }
-
-  html+=`<div class="section-label">Articles divers</div>`;
-  unbound.forEach(item=>{
-    html+=`<div class="item-row" style="${item.done?'background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.18)':''}">
-      <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleUnbound('${item.id}')" style="cursor:pointer">${item.done?chkSm:''}</div>
-      <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
-      ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
-      <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="deleteUnbound('${item.id}')">🗑</button>
-    </div>`;
-  });
-
-  html+=`<div class="gap-8" style="margin-top:10px">
-    <input class="inp" id="new-item-name" placeholder="Nouvel article…" style="flex:2" onkeydown="if(event.key==='Enter')addUnbound()" />
-    <input class="inp" id="new-item-price" placeholder="CHF" type="number" style="flex:1;max-width:80px" />
-    <button class="btn btn-accent btn-sm" onclick="addUnbound()">+</button>
+  h+=`<div class="sec-lbl">Articles divers</div>`;
+  unb.forEach(i=>{h+=`<div class="item-row" style="${i.done?'background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.15)':''}"><div class="chk chk-sm ${i.done?'on':''}" onclick="tgUnb('${i.id}')" style="cursor:pointer">${i.done?chkSVG(11):''}</div><span style="flex:1;color:${i.done?'var(--muted2)':'var(--text)'};font-size:14px;text-decoration:${i.done?'line-through':'none'}">${esc(i.name)}</span>${i.price?`<span style="color:var(--g1);font-size:13px">${i.price} CHF</span>`:''}<button class="btn btn-ghost btn-sm" style="padding:4px 8px" onclick="delUnb('${i.id}')">🗑</button></div>`;});
+  h+=`<div class="flex-gap8" style="margin-top:12px">
+    <input class="inp" id="ni-name" placeholder="Nouvel article…" style="flex:2" onkeydown="if(event.key==='Enter')addUnb()"/>
+    <input class="inp" id="ni-price" placeholder="CHF" type="number" style="max-width:80px"/>
+    <button class="btn btn-accent btn-sm" onclick="addUnb()">+</button>
   </div>`;
-  return html;
+  return h;
 }
 
-// ─── CALENDAR ─────────────────────────────────────────────
-function renderCalendar(){
-  const tasks=(houseData().tasks||[]).filter(t=>t.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
-  if(!tasks.length) return `<div class="empty-state"><div style="font-size:44px;margin-bottom:12px">📅</div>Aucune tâche avec deadline</div>`;
+// ─── CALENDAR ──────────────────────────────────
+function rCalendar(){
+  const tasks=(hd().tasks||[]).filter(t=>t.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  if(!tasks.length)return`<div class="empty"><div class="empty-ico">📅</div>Aucune tâche avec deadline</div>`;
   const now=new Date();
   return tasks.map(t=>{
     const dl=Math.ceil((new Date(t.deadline+'T00:00:00')-now)/86400000);
     const c=dl<0?'#ef4444':dl<=7?'#f59e0b':'#22c55e';
-    return `<div style="display:flex;gap:13px;padding:14px 15px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;margin-bottom:10px;align-items:center">
-      <div style="min-width:48px;text-align:center">
-        <div style="color:${c};font-size:21px;font-weight:800">${dl<0?dl:'+'+dl}</div>
-        <div style="color:#555;font-size:10px">jours</div>
+    return`<div style="display:flex;gap:14px;padding:14px 16px;background:var(--card);border:1.5px solid var(--card-border);border-radius:18px;margin-bottom:10px;align-items:center">
+      <div style="min-width:50px;text-align:center;background:${c}15;border-radius:12px;padding:8px 4px">
+        <div style="color:${c};font-size:22px;font-weight:800;letter-spacing:-0.5px">${dl<0?dl:'+'+dl}</div>
+        <div style="color:${c};font-size:10px;opacity:0.7;font-weight:600">jours</div>
       </div>
       <div style="flex:1">
-        <div style="color:${t.done?'#555':'#f1f5f9'};font-weight:700;font-size:14px;text-decoration:${t.done?'line-through':'none'}">${esc(t.title)}</div>
-        <div style="color:#777;font-size:12px;margin-top:2px">${formatDate(t.deadline)}${t.room?' · '+esc(t.room):''}</div>
+        <div style="color:${t.done?'var(--muted2)':'var(--text)'};font-weight:700;font-size:15px;text-decoration:${t.done?'line-through':'none'};letter-spacing:-0.2px">${esc(t.title)}</div>
+        <div style="color:var(--muted);font-size:12px;margin-top:3px">${fmtDate(t.deadline)}${t.room?' · '+esc(t.room):''}</div>
       </div>
-      <div class="urgency-badge" style="color:${uc(t.urgency)};border-color:${uc(t.urgency)};background:${uc(t.urgency)}18">${t.urgency}</div>
+      <div class="urg-badge" style="color:${uc(t.urgency)};border-color:${uc(t.urgency)};background:${uc(t.urgency)}18">${t.urgency}</div>
     </div>`;
   }).join('');
 }
 
-// ══════════════════════════════════════════════════════════
-// TASK MODAL
-// ══════════════════════════════════════════════════════════
-function openTaskModal(taskId){
-  STATE.editingTaskId=taskId;
-  const task=taskId?houseData().tasks.find(t=>t.id===taskId):null;
-  STATE.formPhotos={ before:[...(task?.photos_before||[])], inspiration:[...(task?.photos_inspiration||[])] };
-  STATE.formItems=[...(task?.items||[])];
-  document.getElementById('modal-title').textContent=task?'✏️ Modifier la tâche':'➕ Nouvelle tâche';
-  document.getElementById('task-form').innerHTML=buildTaskForm(task);
+// ══════════════════════════════════════════════
+// MODAL
+// ══════════════════════════════════════════════
+function openModal(taskId){
+  S.editId=taskId;
+  const t=taskId?hd().tasks.find(x=>x.id===taskId):null;
+  S.fPhotos={before:[...(t?.photos_before||[])],inspiration:[...(t?.photos_inspiration||[])]};
+  S.fItems=[...(t?.items||[])];
+  document.getElementById('modal-title').textContent=t?'✏️ Modifier':'➕ Nouvelle tâche';
+  document.getElementById('task-form').innerHTML=buildForm(t);
   document.getElementById('task-modal').classList.add('open');
-  renderFormPhotos();
+  renderFP();
 }
-function closeTaskModal(){
-  document.getElementById('task-modal').classList.remove('open');
-  STATE.editingTaskId=null;
-}
+function closeModal(){document.getElementById('task-modal').classList.remove('open');S.editId=null;}
 
-function buildTaskForm(task){
-  const urgVal=task?.urgency||5;
-  let itemsHtml=STATE.formItems.map(i=>`
-    <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px">
-      <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span>
-      ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''}
-      <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button>
-    </div>`).join('');
-  return `
-    <div class="field"><label>Titre *</label><input class="inp" id="f-title" value="${esc(task?.title||'')}" placeholder="Ex: Installation machine à laver" /></div>
-    <div class="field"><label>Pièce / Zone</label><input class="inp" id="f-room" value="${esc(task?.room||'')}" placeholder="Cuisine, Salle de bain…" /></div>
+function buildForm(t){
+  const uv=t?.urgency||5;
+  let iH=S.fItems.map(i=>`<div style="display:flex;gap:8px;align-items:center;padding:8px 12px;background:rgba(16,185,129,0.06);border-radius:12px;margin-bottom:5px"><span style="flex:1;color:var(--text);font-size:14px">${esc(i.name)}</span>${i.price?`<span style="color:var(--g1);font-size:13px">${i.price} CHF</span>`:''}<button class="btn btn-ghost btn-sm" style="padding:4px 7px" onclick="rmFI('${i.id}')">🗑</button></div>`).join('');
+  return`
+    <div class="field"><label class="field-label">Titre *</label><input class="inp" id="f-title" value="${esc(t?.title||'')}" placeholder="Ex: Machine à laver"/></div>
+    <div class="field"><label class="field-label">Pièce / Zone</label><input class="inp" id="f-room" value="${esc(t?.room||'')}" placeholder="Cuisine, Salle de bain…"/></div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-      <div class="field"><label>Deadline</label><input class="inp" type="date" id="f-deadline" value="${task?.deadline||''}" /></div>
-      <div class="field"><label id="f-urg-lbl">Urgence ${urgVal}/10</label>
-        <div style="display:flex;align-items:center;gap:8px;padding-top:6px">
-          <input type="range" min="1" max="10" id="f-urgency" value="${urgVal}" style="accentColor:${uc(urgVal)}" oninput="updUrg(this.value)" />
-          <span id="f-urg-val" style="color:${uc(urgVal)};font-weight:800;font-size:16px;min-width:22px">${urgVal}</span>
+      <div class="field"><label class="field-label">Deadline</label><input class="inp" type="date" id="f-dl" value="${t?.deadline||''}"/></div>
+      <div class="field"><label class="field-label" id="f-ul">Urgence ${uv}/10</label>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:8px">
+          <input type="range" min="1" max="10" id="f-urg" value="${uv}" style="accentColor:${uc(uv)}" oninput="upUrg(this.value)"/>
+          <span id="f-uv" style="color:${uc(uv)};font-weight:800;font-size:17px;min-width:22px">${uv}</span>
         </div>
       </div>
     </div>
-    <div class="field"><label>Description</label><textarea class="inp" id="f-desc" placeholder="Détails…">${esc(task?.description||'')}</textarea></div>
+    <div class="field"><label class="field-label">Notes</label><textarea class="inp" id="f-desc" placeholder="Détails…">${esc(t?.description||'')}</textarea></div>
 
 ```
-<div class="field"><label>Articles à acheter</label>
-  <div id="form-items">${itemsHtml}</div>
-  <div class="gap-8" style="margin-top:4px">
-    <input class="inp" id="f-item-name" placeholder="Article…" style="flex:2" onkeydown="if(event.key==='Enter')addFormItem()" />
-    <input class="inp" id="f-item-price" placeholder="CHF" type="number" style="flex:1;max-width:85px" />
-    <button class="btn btn-accent btn-sm" onclick="addFormItem()">+</button>
+<div class="field"><label class="field-label">Articles à acheter</label>
+  <div id="f-items">${iH}</div>
+  <div class="flex-gap8" style="margin-top:4px">
+    <input class="inp" id="f-in" placeholder="Article…" style="flex:2" onkeydown="if(event.key==='Enter')addFI()"/>
+    <input class="inp" id="f-ip" placeholder="CHF" type="number" style="max-width:82px"/>
+    <button class="btn btn-accent btn-sm" onclick="addFI()">+</button>
   </div>
 </div>
-<div class="field"><label>📸 Photos — État actuel</label><div id="photos-before" class="photo-grid"></div>
-  <input type="file" id="f-pb" accept="image/*" multiple style="display:none" onchange="handlePhotos('before',this)" /></div>
-<div class="field"><label>✨ Photos — Inspiration</label><div id="photos-inspiration" class="photo-grid"></div>
-  <input type="file" id="f-pi" accept="image/*" multiple style="display:none" onchange="handlePhotos('inspiration',this)" /></div>
-<div class="gap-8" style="margin-top:10px">
-  <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeTaskModal()">Annuler</button>
-  <button class="btn btn-primary" style="flex:2;justify-content:center" id="f-save-btn" onclick="saveTask()">${task?'Enregistrer':'Créer la tâche'}</button>
+<div class="field"><label class="field-label">📸 Photos — État actuel</label><div id="fp-before" class="photo-grid"></div><input type="file" id="f-pb" accept="image/*" multiple style="display:none" onchange="hPhoto('before',this)"/></div>
+<div class="field"><label class="field-label">✨ Photos — Inspiration</label><div id="fp-inspi" class="photo-grid"></div><input type="file" id="f-pi" accept="image/*" multiple style="display:none" onchange="hPhoto('inspiration',this)"/></div>
+<div class="flex-gap8" style="margin-top:12px">
+  <button class="btn btn-ghost" style="flex:1" onclick="closeModal()">Annuler</button>
+  <button class="btn btn-primary" style="flex:2" id="f-save" onclick="saveTask()">${t?'Enregistrer':'Créer la tâche'}</button>
 </div>`;
 ```
 
 }
-
-function updUrg(v){
-document.getElementById(‘f-urg-lbl’).textContent=‘Urgence ‘+v+’/10’;
-const el=document.getElementById(‘f-urg-val’);
-el.textContent=v; el.style.color=uc(+v);
-document.getElementById(‘f-urgency’).style.accentColor=uc(+v);
-}
-
-function refreshFormItems(){
-const el=document.getElementById(‘form-items’); if(!el)return;
-el.innerHTML=STATE.formItems.map(i=>` <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px"> <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span> ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''} <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button> </div>`).join(’’);
-}
-function addFormItem(){
-const n=document.getElementById(‘f-item-name’)?.value.trim();
-const p=document.getElementById(‘f-item-price’)?.value.trim();
-if(!n)return;
-STATE.formItems.push({id:uid(),name:n,price:p,done:false});
-document.getElementById(‘f-item-name’).value=’’;
-document.getElementById(‘f-item-price’).value=’’;
-refreshFormItems();
-}
-function removeFormItem(id){ STATE.formItems=STATE.formItems.filter(i=>i.id!==id); refreshFormItems(); }
-
-async function handlePhotos(type,input){
-for(const file of Array.from(input.files)){
-if(!file.type.startsWith(‘image/’))continue;
-const data=await resizeImage(file,800);
-STATE.formPhotos[type].push({id:uid(),data});
-}
-input.value=’’; renderFormPhotos();
-}
-function resizeImage(file,maxW){
-return new Promise(res=>{
-const img=new Image(), url=URL.createObjectURL(file);
-img.onload=()=>{
-const sc=Math.min(1,maxW/img.width);
-const c=document.createElement(‘canvas’);
-c.width=img.width*sc; c.height=img.height*sc;
-c.getContext(‘2d’).drawImage(img,0,0,c.width,c.height);
-URL.revokeObjectURL(url); res(c.toDataURL(‘image/jpeg’,0.75));
-}; img.src=url;
-});
-}
-function renderFormPhotos(){
-[‘before’,‘inspiration’].forEach(type=>{
-const el=document.getElementById(‘photos-’+type); if(!el)return;
-const inpId=type===‘before’?‘f-pb’:‘f-pi’;
-el.innerHTML=STATE.formPhotos[type].map(p=>` <div class="photo-thumb"> <img src="${p.data}" onclick="viewPhoto('${p.data}')" /> <button class="photo-del" onclick="removeFormPhoto('${type}','${p.id}')">✕</button> </div>`).join(’’)+
-`<button class="photo-add" onclick="document.getElementById('${inpId}').click()">📷<span>Ajouter</span></button>`;
-});
-}
-function removeFormPhoto(type,id){ STATE.formPhotos[type]=STATE.formPhotos[type].filter(p=>p.id!==id); renderFormPhotos(); }
-
+function upUrg(v){document.getElementById(‘f-ul’).textContent=‘Urgence ‘+v+’/10’;const el=document.getElementById(‘f-uv’);el.textContent=v;el.style.color=uc(+v);document.getElementById(‘f-urg’).style.accentColor=uc(+v);}
+function rfFI(){const el=document.getElementById(‘f-items’);if(!el)return;el.innerHTML=S.fItems.map(i=>`<div style="display:flex;gap:8px;align-items:center;padding:8px 12px;background:rgba(16,185,129,0.06);border-radius:12px;margin-bottom:5px"><span style="flex:1;color:var(--text);font-size:14px">${esc(i.name)}</span>${i.price?`<span style="color:var(--g1);font-size:13px">${i.price} CHF</span>`:''}<button class="btn btn-ghost btn-sm" style="padding:4px 7px" onclick="rmFI('${i.id}')">🗑</button></div>`).join(’’);}
+function addFI(){const n=document.getElementById(‘f-in’)?.value.trim(),p=document.getElementById(‘f-ip’)?.value.trim();if(!n)return;S.fItems.push({id:uid(),name:n,price:p,done:false});document.getElementById(‘f-in’).value=’’;document.getElementById(‘f-ip’).value=’’;rfFI();}
+function rmFI(id){S.fItems=S.fItems.filter(i=>i.id!==id);rfFI();}
+async function hPhoto(type,input){for(const f of Array.from(input.files)){if(!f.type.startsWith(‘image/’))continue;const d=await rsz(f,800);S.fPhotos[type].push({id:uid(),data:d});}input.value=’’;renderFP();}
+function rsz(file,mW){return new Promise(res=>{const img=new Image(),u=URL.createObjectURL(file);img.onload=()=>{const sc=Math.min(1,mW/img.width),c=document.createElement(‘canvas’);c.width=img.width*sc;c.height=img.height*sc;c.getContext(‘2d’).drawImage(img,0,0,c.width,c.height);URL.revokeObjectURL(u);res(c.toDataURL(‘image/jpeg’,0.75));};img.src=u;});}
+function renderFP(){[‘before’,‘inspiration’].forEach(tp=>{const el=document.getElementById(‘fp-’+tp);if(!el)return;const iid=tp===‘before’?‘f-pb’:‘f-pi’;el.innerHTML=S.fPhotos[tp].map(p=>`<div class="photo-thumb"><img src="${p.data}" onclick="viewPhoto('${p.data}')"/><button class="photo-del" onclick="rmFP('${tp}','${p.id}')">✕</button></div>`).join(’’)+`<button class="photo-add" onclick="document.getElementById('${iid}').click()">📷<span>Ajouter</span></button>`;});}
+function rmFP(tp,id){S.fPhotos[tp]=S.fPhotos[tp].filter(p=>p.id!==id);renderFP();}
 async function saveTask(){
-const title=document.getElementById(‘f-title’)?.value.trim();
-if(!title)return;
-const btn=document.getElementById(‘f-save-btn’);
-if(btn){btn.disabled=true;btn.textContent=‘⏳ Sauvegarde…’;}
-const task={
-id:STATE.editingTaskId||uid(), title,
-room:document.getElementById(‘f-room’)?.value.trim()||’’,
-deadline:document.getElementById(‘f-deadline’)?.value||’’,
-urgency:parseInt(document.getElementById(‘f-urgency’)?.value)||5,
-description:document.getElementById(‘f-desc’)?.value.trim()||’’,
-items:STATE.formItems,
-photos_before:STATE.formPhotos.before,
-photos_inspiration:STATE.formPhotos.inspiration,
-done:false
-};
-if(STATE.editingTaskId){
-const ex=houseData().tasks.find(t=>t.id===STATE.editingTaskId);
-if(ex)task.done=ex.done;
-}
-const hd=houseData();
-const idx=hd.tasks.findIndex(t=>t.id===task.id);
-if(idx>=0)hd.tasks[idx]=task; else hd.tasks.push(task);
-closeTaskModal(); render();
-await saveToGitHub();
+const title=document.getElementById(‘f-title’)?.value.trim();if(!title)return;
+const btn=document.getElementById(‘f-save’);if(btn){btn.disabled=true;btn.textContent=‘⏳ Sauvegarde…’;}
+const task={id:S.editId||uid(),title,room:document.getElementById(‘f-room’)?.value.trim()||’’,deadline:document.getElementById(‘f-dl’)?.value||’’,urgency:parseInt(document.getElementById(‘f-urg’)?.value)||5,description:document.getElementById(‘f-desc’)?.value.trim()||’’,items:S.fItems,photos_before:S.fPhotos.before,photos_inspiration:S.fPhotos.inspiration,done:false};
+if(S.editId){const ex=hd().tasks.find(t=>t.id===S.editId);if(ex)task.done=ex.done;}
+const idx=hd().tasks.findIndex(t=>t.id===task.id);
+if(idx>=0)hd().tasks[idx]=task;else hd().tasks.push(task);
+closeModal();render();await ghSave();
 }
 
-// ══════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════
 // ACTIONS
-// ══════════════════════════════════════════════════════════
-function toggleCard(id){
-const t=houseData().tasks.find(t=>t.id===id);
-if(t)t._open=!t._open; render();
-}
-async function toggleTaskDone(id){
-const t=houseData().tasks.find(t=>t.id===id);
-if(t)t.done=!t.done; render(); await saveToGitHub();
-}
-async function toggleItem(taskId,itemId){
-const t=houseData().tasks.find(t=>t.id===taskId); if(!t)return;
-const i=t.items.find(i=>i.id===itemId); if(i)i.done=!i.done;
-render(); await saveToGitHub();
-}
-async function deleteTask(id){
-if(!confirm(‘Supprimer cette tâche ?’))return;
-houseData().tasks=houseData().tasks.filter(t=>t.id!==id);
-render(); await saveToGitHub();
-}
-async function addUnbound(){
-const name=document.getElementById(‘new-item-name’)?.value.trim();
-const price=document.getElementById(‘new-item-price’)?.value.trim();
-if(!name)return;
-const hd=houseData(); if(!hd.unboundItems)hd.unboundItems=[];
-hd.unboundItems.push({id:uid(),name,price,done:false});
-render(); await saveToGitHub();
-}
-async function toggleUnbound(id){
-const i=houseData().unboundItems?.find(i=>i.id===id);
-if(i)i.done=!i.done; render(); await saveToGitHub();
-}
-async function deleteUnbound(id){
-houseData().unboundItems=(houseData().unboundItems||[]).filter(i=>i.id!==id);
-render(); await saveToGitHub();
-}
-function viewPhoto(data){
-document.getElementById(‘photo-modal-img’).src=data;
-document.getElementById(‘photo-modal’).classList.add(‘open’);
-}
+// ══════════════════════════════════════════════
+function tgCard(id){const t=hd().tasks.find(t=>t.id===id);if(t)t._open=!t._open;render();}
+async function tgDone(id){const t=hd().tasks.find(t=>t.id===id);if(t)t.done=!t.done;render();await ghSave();}
+async function tgItem(tId,iId){const t=hd().tasks.find(t=>t.id===tId);if(!t)return;const i=t.items.find(i=>i.id===iId);if(i)i.done=!i.done;render();await ghSave();}
+async function delTask(id){if(!confirm(‘Supprimer ?’))return;hd().tasks=hd().tasks.filter(t=>t.id!==id);render();await ghSave();}
+async function addUnb(){const n=document.getElementById(‘ni-name’)?.value.trim(),p=document.getElementById(‘ni-price’)?.value.trim();if(!n)return;const h=hd();if(!h.unboundItems)h.unboundItems=[];h.unboundItems.push({id:uid(),name:n,price:p,done:false});render();await ghSave();}
+async function tgUnb(id){const i=hd().unboundItems?.find(i=>i.id===id);if(i)i.done=!i.done;render();await ghSave();}
+async function delUnb(id){hd().unboundItems=(hd().unboundItems||[]).filter(i=>i.id!==id);render();await ghSave();}
+function viewPhoto(data){document.getElementById(‘photo-img’).src=data;document.getElementById(‘photo-modal’).classList.add(‘open’);}
 
-// ══════════════════════════════════════════════════════════
-// INIT — token sauvegardé = connexion automatique
-// ══════════════════════════════════════════════════════════
-(async function init(){
-const saved=localStorage.getItem(‘mt_token’);
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+(async()=>{
+const saved=localStorage.getItem(‘mt_tok’);
 if(saved){
 TOKEN=saved;
-const ok=await loadFromGitHub();
+const ok=await ghLoad();
 if(ok){
-document.getElementById(‘setup-screen’).style.display=‘none’;
+document.getElementById(‘setup’).style.display=‘none’;
 document.getElementById(‘app’).style.display=‘block’;
 render();
-setInterval(pollGitHub,20000);
-} else {
-TOKEN=’’;
-localStorage.removeItem(‘mt_token’);
-}
+setInterval(poll,20000);
+}else{TOKEN=’’;localStorage.removeItem(‘mt_tok’);}
 }
 })();
 </script>
