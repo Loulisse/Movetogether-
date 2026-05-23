@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="theme-color" content="#080a0f" />
+  <title>MoveTogether 🏡</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600;700;800&display=swap');
+
+```
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { background: #080a0f; color: #fff; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+input, textarea, select { color-scheme: dark; font-family: inherit; }
+input[type=range] { -webkit-appearance: none; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; outline: none; width: 100%; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; cursor: pointer; }
+::placeholder { color: #3a3a4a !important; }
+::-webkit-scrollbar { width: 3px; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+button:active { opacity: 0.7; }
+
+/* SETUP SCREEN */
+#setup-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; padding: 24px; }
+.setup-card { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px; padding: 28px 24px; width: 100%; max-width: 440px; }
+.setup-title { font-size: 26px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 6px; }
+.setup-sub { color: #555; font-size: 14px; margin-bottom: 24px; line-height: 1.5; }
+
+/* APP */
+#app { display: none; }
+.header { position: sticky; top: 0; z-index: 100; background: rgba(8,10,15,0.92); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); padding: 12px 16px; }
+.header-inner { max-width: 620px; margin: 0 auto; }
+.app-title { font-size: 19px; font-weight: 800; background: linear-gradient(135deg,#6366f1,#ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 12px; }
+
+.content { max-width: 620px; margin: 0 auto; padding: 16px 16px 100px; }
+
+/* GRID BUTTONS */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 10px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; margin-bottom: 0; }
+
+.house-btn { padding: 9px 10px; border-radius: 12px; cursor: pointer; border: 2px solid rgba(255,255,255,0.06); color: #555; font-size: 13px; font-weight: 700; display: flex; align-items: center; gap: 6px; justify-content: center; transition: all 0.2s; background: rgba(255,255,255,0.04); font-family: inherit; }
+.house-btn.active { background: rgba(99,102,241,0.22); border-color: rgba(99,102,241,0.45); color: #a5b4fc; }
+
+.tab-btn { padding: 8px 0; border-radius: 10px; cursor: pointer; border: 1px solid rgba(255,255,255,0.05); color: #444; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; justify-content: center; transition: all 0.2s; background: transparent; font-family: inherit; }
+.tab-btn.active { background: rgba(99,102,241,0.2); border-color: rgba(99,102,241,0.35); color: #818cf8; }
+
+/* INPUTS */
+.field { margin-bottom: 14px; }
+.field label { display: block; font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 5px; }
+.inp { width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; color: #fff; font-size: 15px; outline: none; font-family: inherit; }
+textarea.inp { min-height: 68px; resize: vertical; }
+
+/* BUTTONS */
+.btn { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; border: none; border-radius: 12px; font-family: inherit; font-weight: 700; padding: 10px 16px; font-size: 14px; transition: opacity 0.15s; }
+.btn-primary { background: linear-gradient(135deg,#6366f1,#8b5cf6); color: #fff; }
+.btn-ghost { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: #aaa; }
+.btn-danger { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.2); color: #f87171; }
+.btn-accent { background: rgba(99,102,241,0.2); border: 1px solid rgba(99,102,241,0.3); color: #818cf8; }
+.btn-sm { padding: 6px 10px; font-size: 12px; border-radius: 9px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* MODAL */
+.modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(5,7,12,0.85); backdrop-filter: blur(8px); align-items: flex-end; justify-content: center; padding: 0; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: #0d0f18; border: 1px solid rgba(255,255,255,0.09); border-radius: 24px 24px 0 0; padding: 24px 20px 36px; width: 100%; max-width: 560px; max-height: 92vh; overflow-y: auto; animation: slideUp 0.3s cubic-bezier(0.34,1.26,0.64,1); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 18px; font-weight: 800; color: #fff; }
+@keyframes slideUp { from { opacity:0; transform:translateY(40px) } to { opacity:1; transform:translateY(0) } }
+
+/* CARDS */
+.task-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 10px; transition: all 0.2s; }
+.task-card.done { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.18); }
+.task-card-header { padding: 13px 15px; display: flex; gap: 11px; align-items: flex-start; cursor: pointer; }
+.task-card-body { padding: 0 15px 15px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* CHECKBOX */
+.checkbox { width: 26px; height: 26px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.2); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; transition: all 0.2s; }
+.checkbox.checked { border-color: #22c55e; background: #22c55e; }
+.checkbox-sm { width: 20px; height: 20px; border-radius: 6px; }
+
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 18px; }
+.stat-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 13px; padding: 13px 10px; text-align: center; }
+.stat-val { font-size: 21px; font-weight: 800; }
+.stat-lbl { color: #666; font-size: 11px; margin-top: 2px; }
+
+/* PHOTO GRID */
+.photo-grid { display: flex; gap: 8px; flex-wrap: wrap; }
+.photo-thumb { position: relative; width: 72px; height: 72px; }
+.photo-thumb img { width: 72px; height: 72px; object-fit: cover; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); cursor: pointer; }
+.photo-del { position: absolute; top: -5px; right: -5px; background: #ef4444; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; }
+.photo-add { width: 72px; height: 72px; background: rgba(99,102,241,0.1); border: 2px dashed rgba(99,102,241,0.35); border-radius: 10px; cursor: pointer; color: #818cf8; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 10px; font-weight: 700; font-family: inherit; }
+
+/* URGENCY BADGE */
+.urgency-badge { width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; border-width: 2px; border-style: solid; }
+
+/* TAG */
+.tag { background: rgba(99,102,241,0.18); color: #818cf8; font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+
+/* SECTION HEADER */
+.section-label { font-size: 11px; color: #555; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; margin-top: 12px; }
+
+/* LOADER */
+.spinner { animation: spin 1s linear infinite; display: inline-block; }
+@keyframes spin { to { transform: rotate(360deg) } }
+
+/* SYNC STATUS */
+.sync-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin-right: 5px; }
+.sync-ok { background: #22c55e; }
+.sync-ing { background: #f59e0b; animation: pulse 1s ease-in-out infinite; }
+.sync-err { background: #ef4444; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.empty-state { text-align: center; color: #444; padding: 48px 0; }
+.empty-emoji { font-size: 44px; margin-bottom: 12px; }
+
+.row-between { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.gap-8 { display: flex; gap: 8px; }
+.gap-6 { display: flex; gap: 6px; flex-wrap: wrap; }
+.item-row { display: flex; align-items: center; gap: 10px; padding: 10px 13px; background: rgba(255,255,255,0.04); border-radius: 12px; margin-bottom: 6px; border: 1px solid rgba(255,255,255,0.06); }
+```
+
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ SETUP SCREEN -->
+
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-title">MoveTogether 🏡</div>
+    <div class="setup-sub">Configure une fois, synchronisé pour toujours avec ta copine.</div>
+
+```
+<div class="field">
+  <label>Token GitHub</label>
+  <input class="inp" id="gh-token" type="password" placeholder="ghp_xxxxxxxxxxxx" />
+</div>
+<div class="field">
+  <label>Nom d'utilisateur GitHub</label>
+  <input class="inp" id="gh-user" placeholder="ton-username" />
+</div>
+<div class="field">
+  <label>Nom du repository</label>
+  <input class="inp" id="gh-repo" placeholder="movetogether" />
+</div>
+<div class="field">
+  <label>Nom du fichier de données</label>
+  <input class="inp" id="gh-file" value="data.json" />
+</div>
+
+<button class="btn btn-primary" style="width:100%;justify-content:center;margin-top:8px" onclick="setupApp()">
+  <span id="setup-btn-text">Connecter →</span>
+</button>
+<div id="setup-error" style="color:#f87171;font-size:13px;margin-top:10px;display:none"></div>
+
+<div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06);color:#444;font-size:12px;line-height:1.6">
+  💡 <strong style="color:#666">Rappel :</strong> Crée un token sur GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic) → avec les droits <code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:4px">repo</code>
+</div>
+```
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ APP -->
+
+<div id="app">
+  <div class="header">
+    <div class="header-inner">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div class="app-title">MoveTogether 🏡</div>
+        <div style="display:flex;align-items:center;font-size:12px;color:#555">
+          <span class="sync-dot sync-ok" id="sync-dot"></span>
+          <span id="sync-label">Synchronisé</span>
+        </div>
+      </div>
+      <div class="grid-2">
+        <button class="house-btn active" id="btn-current" onclick="switchHouse('current')">🏠 Maison actuelle</button>
+        <button class="house-btn" id="btn-future" onclick="switchHouse('future')">✨ Nouvelle maison</button>
+      </div>
+      <div class="grid-3" style="margin-top:8px">
+        <button class="tab-btn active" id="tab-summary" onclick="switchTab('summary')">📋 Résumé</button>
+        <button class="tab-btn" id="tab-shopping" onclick="switchTab('shopping')">🛒 Achats</button>
+        <button class="tab-btn" id="tab-calendar" onclick="switchTab('calendar')">📅 Calendrier</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="row-between">
+      <div id="section-title" style="font-size:15px;font-weight:700;color:#888"></div>
+      <button class="btn btn-primary btn-sm" id="new-task-btn" onclick="openTaskModal(null)">+ Nouvelle tâche</button>
+    </div>
+    <div id="view-container"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TASK MODAL -->
+
+<div class="modal-overlay" id="task-modal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-title">Nouvelle tâche</div>
+      <button class="btn btn-ghost btn-sm" onclick="closeTaskModal()">✕</button>
+    </div>
+    <div id="task-form"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ PHOTO MODAL -->
+
+<div class="modal-overlay" id="photo-modal" onclick="if(event.target===this)closePhotoModal()">
+  <div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;padding:20px">
+    <img id="photo-modal-img" src="" style="max-width:100%;max-height:90vh;border-radius:16px" />
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+// CONFIG & STATE
+// ═══════════════════════════════════════════════════════════════════════
+let CONFIG = {};
+let STATE = {
+  house: 'current',
+  tab: 'summary',
+  data: {
+    current: { tasks: [], unboundItems: [] },
+    future:  { tasks: [], unboundItems: [] }
+  },
+  sha: null,
+  syncing: false,
+  editingTaskId: null,
+  formPhotos: { before: [], inspiration: [] }
+};
+
+const URGENCY_COLORS = ['','#22c55e','#22c55e','#22c55e','#f59e0b','#f59e0b','#f59e0b','#f97316','#f97316','#ef4444','#ef4444'];
+const URGENCY_LABELS = ['','Faible','Faible','Faible','Modérée','Modérée','Modérée','Haute','Haute','Critique','Critique'];
+function uc(u) { return URGENCY_COLORS[u] || '#22c55e'; }
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2,7); }
+
+// ═══════════════════════════════════════════════════════════════════════
+// SETUP
+// ═══════════════════════════════════════════════════════════════════════
+function loadConfig() {
+  try {
+    const c = localStorage.getItem('movetogether_config');
+    if (c) CONFIG = JSON.parse(c);
+  } catch {}
+}
+
+async function setupApp() {
+  const token = document.getElementById('gh-token').value.trim();
+  const user  = document.getElementById('gh-user').value.trim();
+  const repo  = document.getElementById('gh-repo').value.trim();
+  const file  = document.getElementById('gh-file').value.trim() || 'data.json';
+  const errEl = document.getElementById('setup-error');
+  const btnTxt = document.getElementById('setup-btn-text');
+
+  if (!token || !user || !repo) { showSetupError('Tous les champs sont requis.'); return; }
+
+  btnTxt.textContent = 'Connexion…';
+  errEl.style.display = 'none';
+
+  CONFIG = { token, user, repo, file };
+  const ok = await loadFromGitHub(true);
+  if (ok) {
+    localStorage.setItem('movetogether_config', JSON.stringify(CONFIG));
+    showApp();
+  } else {
+    btnTxt.textContent = 'Connecter →';
+    showSetupError('Impossible de se connecter. Vérifie ton token et le nom du repo.');
+  }
+}
+
+function showSetupError(msg) {
+  const el = document.getElementById('setup-error');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+function showApp() {
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  render();
+  // Poll toutes les 15 secondes pour synchro en temps réel
+  setInterval(pollGitHub, 15000);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// GITHUB API
+// ═══════════════════════════════════════════════════════════════════════
+const GH_API = () => `https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${CONFIG.file}`;
+const GH_HEADERS = () => ({
+  'Authorization': `token ${CONFIG.token}`,
+  'Content-Type': 'application/json',
+  'Accept': 'application/vnd.github.v3+json'
+});
+
+async function loadFromGitHub(silent = false) {
+  try {
+    const res = await fetch(GH_API(), { headers: GH_HEADERS() });
+    if (res.status === 404) {
+      // Fichier n'existe pas encore, on le crée
+      STATE.sha = null;
+      await saveToGitHub();
+      return true;
+    }
+    if (!res.ok) return false;
+    const json = await res.json();
+    STATE.sha = json.sha;
+    const decoded = JSON.parse(atob(json.content.replace(/\n/g,'')));
+    // Merge proprement pour ne pas perdre de données locales non sauvegardées
+    STATE.data = decoded;
+    if (!STATE.data.current) STATE.data.current = { tasks: [], unboundItems: [] };
+    if (!STATE.data.future)  STATE.data.future  = { tasks: [], unboundItems: [] };
+    if (!silent) { setSyncStatus('ok'); render(); }
+    return true;
+  } catch(e) {
+    if (!silent) setSyncStatus('err');
+    return false;
+  }
+}
+
+async function saveToGitHub() {
+  setSyncStatus('ing');
+  try {
+    const content = btoa(unescape(encodeURIComponent(JSON.stringify(STATE.data, null, 2))));
+    const body = { message: 'update data', content };
+    if (STATE.sha) body.sha = STATE.sha;
+    const res = await fetch(GH_API(), { method: 'PUT', headers: GH_HEADERS(), body: JSON.stringify(body) });
+    if (!res.ok) { setSyncStatus('err'); return false; }
+    const json = await res.json();
+    STATE.sha = json.content.sha;
+    setSyncStatus('ok');
+    return true;
+  } catch { setSyncStatus('err'); return false; }
+}
+
+async function pollGitHub() {
+  if (STATE.syncing) return;
+  STATE.syncing = true;
+  await loadFromGitHub(false);
+  STATE.syncing = false;
+}
+
+function setSyncStatus(status) {
+  const dot = document.getElementById('sync-dot');
+  const lbl = document.getElementById('sync-label');
+  if (!dot) return;
+  dot.className = 'sync-dot ' + (status==='ok'?'sync-ok':status==='ing'?'sync-ing':'sync-err');
+  lbl.textContent = status==='ok'?'Synchronisé':status==='ing'?'Sync…':'Erreur sync';
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// PHOTO — stockées en base64 dans le JSON
+// ═══════════════════════════════════════════════════════════════════════
+function fileToBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.onerror = () => rej(new Error('Read error'));
+    r.readAsDataURL(file);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════════════
+function switchHouse(h) {
+  STATE.house = h;
+  document.getElementById('btn-current').classList.toggle('active', h==='current');
+  document.getElementById('btn-future').classList.toggle('active', h==='future');
+  render();
+}
+
+function switchTab(t) {
+  STATE.tab = t;
+  ['summary','shopping','calendar'].forEach(id => {
+    document.getElementById('tab-'+id).classList.toggle('active', id===t);
+  });
+  document.getElementById('new-task-btn').style.display = t==='calendar'?'none':'';
+  render();
+}
+
+function houseData() { return STATE.data[STATE.house]; }
+
+// ═══════════════════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════════════════
+function render() {
+  const labels = { summary:'Résumé', shopping:'Achats', calendar:'Calendrier' };
+  const houseLabel = STATE.house==='current'?'🏠 Maison actuelle':'✨ Nouvelle maison';
+  document.getElementById('section-title').textContent = `${houseLabel} · ${labels[STATE.tab]}`;
+
+  const container = document.getElementById('view-container');
+  if (STATE.tab === 'summary')  container.innerHTML = renderSummary();
+  if (STATE.tab === 'shopping') container.innerHTML = renderShopping();
+  if (STATE.tab === 'calendar') container.innerHTML = renderCalendar();
+  attachEvents();
+}
+
+// ─── SUMMARY ──────────────────────────────────────────────────────────
+function renderSummary() {
+  const tasks = houseData().tasks || [];
+  const done = tasks.filter(t=>t.done).length;
+  const budget = tasks.reduce((s,t)=>s+itemsTotal(t.items),0);
+  const urgent = tasks.filter(t=>t.urgency>=8&&!t.done).length;
+
+  let html = `<div class="stats-grid">
+    <div class="stat-card"><div class="stat-val" style="color:#22c55e">${done}/${tasks.length}</div><div class="stat-lbl">tâches</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#818cf8">~${budget.toFixed(0)}</div><div class="stat-lbl">CHF estimé</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#ef4444">${urgent}</div><div class="stat-lbl">urgentes</div></div>
+  </div>`;
+
+  if (tasks.length === 0) {
+    html += `<div class="empty-state"><div class="empty-emoji">📋</div>Aucune tâche — commence !</div>`;
+  } else {
+    const sorted = [...tasks].sort((a,b)=>b.urgency-a.urgency);
+    sorted.forEach(t => { html += renderTaskCard(t); });
+  }
+  return html;
+}
+
+function itemsTotal(items=[]) {
+  return items.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+}
+
+function renderTaskCard(t) {
+  const total = itemsTotal(t.items);
+  const doneItems = (t.items||[]).filter(i=>i.done).length;
+  const photoCount = (t.photos_before||[]).length + (t.photos_inspiration||[]).length;
+  const color = uc(t.urgency);
+
+  let meta = '';
+  if (t.deadline) meta += `<span style="color:#777;font-size:12px">📅 ${formatDate(t.deadline)}</span>`;
+  if (total>0) meta += `<span style="color:#818cf8;font-size:12px;font-weight:600">💰 ~${total.toFixed(0)} CHF</span>`;
+  if (t.items?.length) meta += `<span style="color:#666;font-size:12px">${doneItems}/${t.items.length} articles</span>`;
+  if (photoCount>0) meta += `<span style="color:#666;font-size:12px">🖼 ${photoCount}</span>`;
+
+  let body = '';
+  if (t._open) {
+    body = `<div class="task-card-body">`;
+    if (t.description) body += `<p style="color:#999;font-size:14px;margin:12px 0;line-height:1.55">${esc(t.description)}</p>`;
+
+    if (t.items?.length) {
+      body += `<div class="section-label">Articles à acheter</div>`;
+      t.items.forEach(item => {
+        body += `<div class="item-row" style="background:rgba(255,255,255,0.03);padding:7px 10px;border-radius:10px;margin-bottom:4px">
+          <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleItem('${t.id}','${item.id}')" style="cursor:pointer;${item.done?'border-color:#22c55e;background:#22c55e':''}">
+            ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
+          </div>
+          <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
+          ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
+        </div>`;
+      });
+    }
+
+    if (t.photos_before?.length) {
+      body += `<div class="section-label">État actuel</div><div class="gap-6" style="margin-bottom:10px">`;
+      t.photos_before.forEach(p => {
+        body += `<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="openPhoto('${p.id}','${t.id}','before')" />`;
+      });
+      body += `</div>`;
+    }
+    if (t.photos_inspiration?.length) {
+      body += `<div class="section-label">Inspiration</div><div class="gap-6" style="margin-bottom:12px">`;
+      t.photos_inspiration.forEach(p => {
+        body += `<img src="${p.data}" style="width:85px;height:65px;object-fit:cover;border-radius:9px;border:1px solid rgba(255,255,255,0.08);cursor:pointer" onclick="openPhoto('${p.id}','${t.id}','inspiration')" />`;
+      });
+      body += `</div>`;
+    }
+
+    body += `<div class="gap-8">
+      <button class="btn btn-accent btn-sm" onclick="openTaskModal('${t.id}')">✏️ Modifier</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteTask('${t.id}')">🗑 Supprimer</button>
+    </div></div>`;
+  }
+
+  return `<div class="task-card ${t.done?'done':''}" id="card-${t.id}">
+    <div class="task-card-header" onclick="toggleCard('${t.id}')">
+      <div class="checkbox ${t.done?'checked':''}" onclick="event.stopPropagation();toggleTaskDone('${t.id}')" style="${t.done?'border-color:#22c55e;background:#22c55e':''}">
+        ${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>':''}
+      </div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+          <span style="color:${t.done?'#555':'#f1f5f9'};font-weight:700;font-size:15px;text-decoration:${t.done?'line-through':'none'}">${esc(t.title)}</span>
+          ${t.room?`<span class="tag">${esc(t.room)}</span>`:''}
+        </div>
+        <div style="display:flex;gap:10px;margin-top:4px;flex-wrap:wrap">${meta}</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="urgency-badge" style="color:${color};border-color:${color};background:${color}18">${t.urgency}</div>
+        <span style="color:#444;transition:0.2s;transform:${t._open?'rotate(180deg)':'rotate(0)'};display:inline-block">▾</span>
+      </div>
+    </div>
+    ${body}
+  </div>`;
+}
+
+// ─── SHOPPING ─────────────────────────────────────────────────────────
+function renderShopping() {
+  const tasks = houseData().tasks || [];
+  const unbound = houseData().unboundItems || [];
+  const taskItems = tasks.flatMap(t=>(t.items||[]).map(i=>({...i,taskTitle:t.title})));
+  const all = [...taskItems,...unbound];
+  const totalDone = all.filter(i=>i.done).length;
+  const totalCost = all.reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+  const spentCost = all.filter(i=>i.done).reduce((s,i)=>s+(parseFloat(i.price)||0),0);
+
+  let html = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px">
+    <div class="stat-card"><div class="stat-val" style="color:#22c55e">${totalDone}/${all.length}</div><div class="stat-lbl">achetés</div></div>
+    <div class="stat-card"><div class="stat-val" style="color:#818cf8">${spentCost.toFixed(0)}/${totalCost.toFixed(0)}</div><div class="stat-lbl">CHF dépensés</div></div>
+  </div>`;
+
+  if (taskItems.length) {
+    html += `<div class="section-label" style="margin-top:0">Liés à une tâche</div>`;
+    taskItems.forEach((item,idx) => {
+      html += `<div class="item-row">
+        <div class="checkbox checkbox-sm" style="cursor:default;${item.done?'border-color:#22c55e;background:#22c55e':''}">
+          ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
+        </div>
+        <div style="flex:1"><div style="color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</div>
+        <div style="color:#555;font-size:11px">📌 ${esc(item.taskTitle)}</div></div>
+        ${item.price?`<span style="color:#818cf8;font-size:13px;font-weight:600">${item.price} CHF</span>`:''}
+      </div>`;
+    });
+  }
+
+  html += `<div class="section-label">Articles divers</div>`;
+  unbound.forEach(item => {
+    html += `<div class="item-row" style="${item.done?'background:rgba(34,197,94,0.05);border-color:rgba(34,197,94,0.18)':''}">
+      <div class="checkbox checkbox-sm ${item.done?'checked':''}" onclick="toggleUnbound('${item.id}')" style="cursor:pointer;${item.done?'border-color:#22c55e;background:#22c55e':''}">
+        ${item.done?'<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" width="11" height="11"><polyline points="20 6 9 17 4 12"/></svg>':''}
+      </div>
+      <span style="flex:1;color:${item.done?'#555':'#ddd'};font-size:14px;text-decoration:${item.done?'line-through':'none'}">${esc(item.name)}</span>
+      ${item.price?`<span style="color:#818cf8;font-size:13px">${item.price} CHF</span>`:''}
+      <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="deleteUnbound('${item.id}')">🗑</button>
+    </div>`;
+  });
+
+  html += `<div class="gap-8" style="margin-top:10px">
+    <input class="inp" id="new-item-name" placeholder="Nouvel article…" style="flex:2" onkeydown="if(event.key==='Enter')addUnbound()" />
+    <input class="inp" id="new-item-price" placeholder="CHF" type="number" style="flex:1;max-width:80px" />
+    <button class="btn btn-accent btn-sm" onclick="addUnbound()">+</button>
+  </div>`;
+
+  return html;
+}
+
+// ─── CALENDAR ─────────────────────────────────────────────────────────
+function renderCalendar() {
+  const tasks = (houseData().tasks||[]).filter(t=>t.deadline).sort((a,b)=>new Date(a.deadline)-new Date(b.deadline));
+  if (!tasks.length) return `<div class="empty-state"><div class="empty-emoji">📅</div>Aucune tâche avec deadline</div>`;
+
+  const now = new Date();
+  return tasks.map(t => {
+    const dl = Math.ceil((new Date(t.deadline+'T00:00:00') - now) / 86400000);
+    const c = dl<0?'#ef4444':dl<=7?'#f59e0b':'#22c55e';
+    return `<div style="display:flex;gap:13px;padding:14px 15px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:14px;margin-bottom:10px;align-items:center">
+      <div style="min-width:48px;text-align:center">
+        <div style="color:${c};font-size:21px;font-weight:800">${dl<0?dl:'+'+dl}</div>
+        <div style="color:#555;font-size:10px">jours</div>
+      </div>
+      <div style="flex:1">
+        <div style="color:${t.done?'#555':'#f1f5f9'};font-weight:700;font-size:14px;text-decoration:${t.done?'line-through':'none'}">${esc(t.title)}</div>
+        <div style="color:#777;font-size:12px;margin-top:2px">${formatDate(t.deadline)}${t.room?' · '+esc(t.room):''}</div>
+      </div>
+      <div class="urgency-badge" style="color:${uc(t.urgency)};border-color:${uc(t.urgency)};background:${uc(t.urgency)}18">${t.urgency}</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK MODAL
+// ═══════════════════════════════════════════════════════════════════════
+function openTaskModal(taskId) {
+  STATE.editingTaskId = taskId;
+  const task = taskId ? houseData().tasks.find(t=>t.id===taskId) : null;
+  STATE.formPhotos = {
+    before: task?.photos_before ? [...task.photos_before] : [],
+    inspiration: task?.photos_inspiration ? [...task.photos_inspiration] : []
+  };
+
+  document.getElementById('modal-title').textContent = task ? '✏️ Modifier la tâche' : '➕ Nouvelle tâche';
+  document.getElementById('task-form').innerHTML = buildTaskForm(task);
+  document.getElementById('task-modal').classList.add('open');
+  renderFormPhotos();
+}
+
+function closeTaskModal() {
+  document.getElementById('task-modal').classList.remove('open');
+  STATE.editingTaskId = null;
+}
+
+function buildTaskForm(task) {
+  const items = task?.items || [];
+  let itemsHtml = items.map(i=>`
+    <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px">
+      <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span>
+      ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''}
+      <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button>
+    </div>`).join('');
+
+  return `
+    <div class="field"><label>Titre *</label><input class="inp" id="f-title" value="${esc(task?.title||'')}" placeholder="Ex: Installation machine à laver" /></div>
+    <div class="field"><label>Pièce / Zone</label><input class="inp" id="f-room" value="${esc(task?.room||'')}" placeholder="Cuisine, Salle de bain…" /></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div class="field"><label>Deadline</label><input class="inp" type="date" id="f-deadline" value="${task?.deadline||''}" /></div>
+      <div class="field"><label id="f-urgency-label">Urgence ${task?.urgency||5}/10</label>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:6px">
+          <input type="range" min="1" max="10" id="f-urgency" value="${task?.urgency||5}" style="accentColor:${uc(task?.urgency||5)}" oninput="updateUrgencyLabel(this.value)" />
+          <span id="f-urgency-val" style="color:${uc(task?.urgency||5)};font-weight:800;font-size:16px;min-width:22px">${task?.urgency||5}</span>
+        </div>
+      </div>
+    </div>
+    <div class="field"><label>Description</label><textarea class="inp" id="f-desc" placeholder="Détails…">${esc(task?.description||'')}</textarea></div>
+
+```
+<div class="field"><label>Articles à acheter</label>
+  <div id="form-items">${itemsHtml}</div>
+  <div class="gap-8" style="margin-top:4px">
+    <input class="inp" id="f-item-name" placeholder="Article…" style="flex:2" onkeydown="if(event.key==='Enter')addFormItem()" />
+    <input class="inp" id="f-item-price" placeholder="CHF" type="number" style="flex:1;max-width:85px" />
+    <button class="btn btn-accent btn-sm" onclick="addFormItem()">+</button>
+  </div>
+</div>
+
+<div class="field"><label>📸 Photos — État actuel</label><div id="photos-before" class="photo-grid"></div><input type="file" id="f-photo-before" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload('before',this)" /></div>
+<div class="field"><label>✨ Photos — Inspiration</label><div id="photos-inspiration" class="photo-grid"></div><input type="file" id="f-photo-inspiration" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload('inspiration',this)" /></div>
+
+<div class="gap-8" style="margin-top:10px">
+  <button class="btn btn-ghost" style="flex:1;justify-content:center" onclick="closeTaskModal()">Annuler</button>
+  <button class="btn btn-primary" style="flex:2;justify-content:center" id="f-save-btn" onclick="saveTask()">
+    ${task ? 'Enregistrer' : 'Créer la tâche'}
+  </button>
+</div>`;
+```
+
+}
+
+function updateUrgencyLabel(v) {
+document.getElementById(‘f-urgency-label’).textContent = `Urgence ${v}/10`;
+document.getElementById(‘f-urgency-val’).textContent = v;
+document.getElementById(‘f-urgency-val’).style.color = uc(+v);
+document.getElementById(‘f-urgency’).style.accentColor = uc(+v);
+}
+
+// Form items
+let _formItems = [];
+function initFormItems(task) {
+_formItems = task?.items ? […task.items] : [];
+}
+
+function addFormItem() {
+const name = document.getElementById(‘f-item-name’).value.trim();
+const price = document.getElementById(‘f-item-price’).value.trim();
+if (!name) return;
+_formItems.push({ id: uid(), name, price, done: false });
+document.getElementById(‘f-item-name’).value = ‘’;
+document.getElementById(‘f-item-price’).value = ‘’;
+refreshFormItems();
+}
+
+function removeFormItem(id) {
+_formItems = _formItems.filter(i=>i.id!==id);
+refreshFormItems();
+}
+
+function refreshFormItems() {
+const el = document.getElementById(‘form-items’);
+if (!el) return;
+el.innerHTML = _formItems.map(i=>` <div style="display:flex;gap:8px;align-items:center;padding:7px 10px;background:rgba(255,255,255,0.04);border-radius:10px;margin-bottom:5px"> <span style="flex:1;color:#ddd;font-size:14px">${esc(i.name)}</span> ${i.price?`<span style="color:#818cf8;font-size:13px">${i.price} CHF</span>`:''} <button class="btn btn-ghost btn-sm" style="padding:4px 6px" onclick="removeFormItem('${i.id}')">🗑</button> </div>`).join(’’);
+}
+
+// Photo upload
+async function handlePhotoUpload(type, input) {
+const files = Array.from(input.files);
+for (const file of files) {
+if (!file.type.startsWith(‘image/’)) continue;
+// Resize avant de stocker
+const data = await resizeImage(file, 800);
+STATE.formPhotos[type].push({ id: uid(), data });
+}
+input.value = ‘’;
+renderFormPhotos();
+}
+
+function resizeImage(file, maxW) {
+return new Promise(res => {
+const img = new Image();
+const url = URL.createObjectURL(file);
+img.onload = () => {
+const scale = Math.min(1, maxW / img.width);
+const canvas = document.createElement(‘canvas’);
+canvas.width = img.width * scale;
+canvas.height = img.height * scale;
+canvas.getContext(‘2d’).drawImage(img, 0, 0, canvas.width, canvas.height);
+URL.revokeObjectURL(url);
+res(canvas.toDataURL(‘image/jpeg’, 0.75));
+};
+img.src = url;
+});
+}
+
+function renderFormPhotos() {
+[‘before’,‘inspiration’].forEach(type => {
+const el = document.getElementById(`photos-${type}`);
+if (!el) return;
+const inputId = `f-photo-${type}`;
+el.innerHTML = STATE.formPhotos[type].map(p=>` <div class="photo-thumb"> <img src="${p.data}" onclick="openPhotoFromData('${p.data}')" /> <button class="photo-del" onclick="removeFormPhoto('${type}','${p.id}')">✕</button> </div>`).join(’’) +
+`<button class="photo-add" onclick="document.getElementById('${inputId}').click()">📷<span>Ajouter</span></button>`;
+});
+}
+
+function removeFormPhoto(type, id) {
+STATE.formPhotos[type] = STATE.formPhotos[type].filter(p=>p.id!==id);
+renderFormPhotos();
+}
+
+async function saveTask() {
+const title = document.getElementById(‘f-title’)?.value.trim();
+if (!title) return;
+
+const saveBtn = document.getElementById(‘f-save-btn’);
+if (saveBtn) { saveBtn.disabled = true; saveBtn.textContent = ‘⏳ Sauvegarde…’; }
+
+const task = {
+id: STATE.editingTaskId || uid(),
+title,
+room: document.getElementById(‘f-room’)?.value.trim() || ‘’,
+deadline: document.getElementById(‘f-deadline’)?.value || ‘’,
+urgency: parseInt(document.getElementById(‘f-urgency’)?.value) || 5,
+description: document.getElementById(‘f-desc’)?.value.trim() || ‘’,
+items: _formItems,
+photos_before: STATE.formPhotos.before,
+photos_inspiration: STATE.formPhotos.inspiration,
+done: false,
+};
+
+// Conserver le statut done si édition
+if (STATE.editingTaskId) {
+const existing = houseData().tasks.find(t=>t.id===STATE.editingTaskId);
+if (existing) task.done = existing.done;
+}
+
+const hd = houseData();
+const idx = hd.tasks.findIndex(t=>t.id===task.id);
+if (idx>=0) hd.tasks[idx] = task;
+else hd.tasks.push(task);
+
+closeTaskModal();
+render();
+await saveToGitHub();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// TASK ACTIONS
+// ═══════════════════════════════════════════════════════════════════════
+function toggleCard(id) {
+const task = houseData().tasks.find(t=>t.id===id);
+if (task) task._open = !task._open;
+render();
+}
+
+async function toggleTaskDone(id) {
+const task = houseData().tasks.find(t=>t.id===id);
+if (task) task.done = !task.done;
+render();
+await saveToGitHub();
+}
+
+async function toggleItem(taskId, itemId) {
+const task = houseData().tasks.find(t=>t.id===taskId);
+if (!task) return;
+const item = task.items.find(i=>i.id===itemId);
+if (item) item.done = !item.done;
+render();
+await saveToGitHub();
+}
+
+async function deleteTask(id) {
+if (!confirm(‘Supprimer cette tâche ?’)) return;
+const hd = houseData();
+hd.tasks = hd.tasks.filter(t=>t.id!==id);
+render();
+await saveToGitHub();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// UNBOUND ITEMS
+// ═══════════════════════════════════════════════════════════════════════
+async function addUnbound() {
+const name = document.getElementById(‘new-item-name’)?.value.trim();
+const price = document.getElementById(‘new-item-price’)?.value.trim();
+if (!name) return;
+const hd = houseData();
+if (!hd.unboundItems) hd.unboundItems = [];
+hd.unboundItems.push({ id: uid(), name, price, done: false });
+render();
+await saveToGitHub();
+}
+
+async function toggleUnbound(id) {
+const item = houseData().unboundItems?.find(i=>i.id===id);
+if (item) item.done = !item.done;
+render();
+await saveToGitHub();
+}
+
+async function deleteUnbound(id) {
+const hd = houseData();
+hd.unboundItems = (hd.unboundItems||[]).filter(i=>i.id!==id);
+render();
+await saveToGitHub();
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// PHOTOS VIEWER
+// ═══════════════════════════════════════════════════════════════════════
+function openPhoto(photoId, taskId, type) {
+const task = houseData().tasks.find(t=>t.id===taskId);
+const photos = type===‘before’ ? task?.photos_before : task?.photos_inspiration;
+const photo = photos?.find(p=>p.id===photoId);
+if (photo) openPhotoFromData(photo.data);
+}
+
+function openPhotoFromData(data) {
+document.getElementById(‘photo-modal-img’).src = data;
+document.getElementById(‘photo-modal’).classList.add(‘open’);
+}
+
+function closePhotoModal() {
+document.getElementById(‘photo-modal’).classList.remove(‘open’);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════════════
+function attachEvents() {
+// Réinitialise les items du formulaire si le modal est ouvert
+const task = STATE.editingTaskId ? houseData().tasks.find(t=>t.id===STATE.editingTaskId) : null;
+_formItems = task?.items ? […task.items] : [];
+}
+
+function formatDate(d) {
+if (!d) return ‘’;
+return new Date(d+‘T00:00:00’).toLocaleDateString(‘fr-CH’, { day:‘numeric’, month:‘long’ });
+}
+
+function esc(str) {
+if (!str) return ‘’;
+return String(str).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/”/g,’"’);
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════════════════
+loadConfig();
+if (CONFIG.token && CONFIG.user && CONFIG.repo) {
+loadFromGitHub(true).then(ok => {
+if (ok) showApp();
+});
+}
+</script>
+
+</body>
+</html>
