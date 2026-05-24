@@ -7,7 +7,7 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 6,
-        "description": "Tondre, boucher les trous, remettre en ÃÂÃÂ©tat salon de jardin, escalier,ÃÂ¢ÃÂÃÂ¦",
+        "description": "Tondre, boucher les trous, remettre en ÃÂÃÂÃÂÃÂ©tat salon de jardin, escalier,ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¦",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
@@ -19,12 +19,43 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 7,
-        "description": "EnlevÃÂ© grillage et bordure en bÃÂ©ton.",
+        "description": "EnlevÃÂÃÂ© grillage et bordure en bÃÂÃÂ©ton.",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
         "done": false,
         "_open": true
+      },
+      {
+        "id": "mpjlzn8ap8dw",
+        "title": "Annexe jardin",
+        "room": "Jardin",
+        "deadline": "2026-07-01",
+        "urgency": 5,
+        "description": "Remettre cailloux, peindre, reboucher trous, poncer porte et réparer,…",
+        "items": [
+          {
+            "id": "mpjlytb0t4er",
+            "name": "Peinture",
+            "price": "50",
+            "done": false
+          },
+          {
+            "id": "mpjlz92pao60",
+            "name": "Mastic bois",
+            "price": "30",
+            "done": false
+          },
+          {
+            "id": "mpjlzlh9nex1",
+            "name": "Papier ponce",
+            "price": "10",
+            "done": false
+          }
+        ],
+        "photos_before": [],
+        "photos_inspiration": [],
+        "done": false
       }
     ],
     "unboundItems": []
