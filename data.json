@@ -7,7 +7,7 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 6,
-        "description": "Tondre, boucher les trous, remettre en Ã©tat salon de jardin, escalier,â¦",
+        "description": "Tondre, boucher les trous, remettre en ÃÂ©tat salon de jardin, escalier,Ã¢ÂÂ¦",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
@@ -19,11 +19,12 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 7,
-        "description": "Enlevé grillage et bordure en béton.",
+        "description": "EnlevÃ© grillage et bordure en bÃ©ton.",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
-        "done": false
+        "done": true,
+        "_open": true
       }
     ],
     "unboundItems": []
