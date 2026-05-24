@@ -7,7 +7,7 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 6,
-        "description": "Tondre, boucher les trous, remettre en ÃÂÃÂÃÂÃÂ©tat salon de jardin, escalier,ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ¦",
+        "description": "Tondre, boucher les trous, remettre en ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ©tat salon de jardin, escalier,ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¦",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
@@ -19,7 +19,7 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 7,
-        "description": "EnlevÃÂÃÂ© grillage et bordure en bÃÂÃÂ©ton.",
+        "description": "EnlevÃÂÃÂÃÂÃÂ© grillage et bordure en bÃÂÃÂÃÂÃÂ©ton.",
         "items": [],
         "photos_before": [],
         "photos_inspiration": [],
@@ -32,7 +32,7 @@
         "room": "Jardin",
         "deadline": "2026-07-01",
         "urgency": 5,
-        "description": "Remettre cailloux, peindre, reboucher trous, poncer porte et réparer,…",
+        "description": "Remettre cailloux, peindre, reboucher trous, poncer porte et rÃ©parer,â¦",
         "items": [
           {
             "id": "mpjlytb0t4er",
@@ -61,7 +61,33 @@
     "unboundItems": []
   },
   "future": {
-    "tasks": [],
+    "tasks": [
+      {
+        "id": "mpjm3xq2c7iw",
+        "title": "Machine à laver",
+        "room": "Cuisine",
+        "deadline": "2026-10-31",
+        "urgency": 1,
+        "description": "Installer et trouver une machine à laver compacte",
+        "items": [
+          {
+            "id": "mpjm3hc2l0qa",
+            "name": "Machine",
+            "price": "400",
+            "done": false
+          },
+          {
+            "id": "mpjm3w99to9a",
+            "name": "Tuyauterie",
+            "price": "50",
+            "done": false
+          }
+        ],
+        "photos_before": [],
+        "photos_inspiration": [],
+        "done": false
+      }
+    ],
     "unboundItems": []
   }
 }
