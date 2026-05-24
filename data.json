@@ -1,1 +1,23 @@
-{"current":{"tasks":[],"unboundItems":[]},"future":{"tasks":[],"unboundItems":[]}}
+{
+  "current": {
+    "tasks": [
+      {
+        "id": "mpjlvmy9qvxf",
+        "title": "Pelouse",
+        "room": "Jardin",
+        "deadline": "2026-07-01",
+        "urgency": 6,
+        "description": "Tondre, boucher les trous, remettre en état salon de jardin, escalier,…",
+        "items": [],
+        "photos_before": [],
+        "photos_inspiration": [],
+        "done": false
+      }
+    ],
+    "unboundItems": []
+  },
+  "future": {
+    "tasks": [],
+    "unboundItems": []
+  }
+}
